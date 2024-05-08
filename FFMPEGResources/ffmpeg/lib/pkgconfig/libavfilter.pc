@@ -1,0 +1,14 @@
+prefix=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg
+exec_prefix=${prefix}
+libdir=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg/lib
+includedir=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg/include
+
+Name: libavfilter
+Description: FFmpeg audio/video filtering library
+Version: 9.8.102
+Requires: libswscale >= 7.3.100, libavformat >= 60.10.100, libavcodec >= 60.22.100, libswresample >= 4.11.100, libavutil >= 58.14.100
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavfilter -pthread -lm -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libass/lib -lass -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/fontconfig/lib -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/freetype/lib -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libpng/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/usr/lib -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/expat/lib -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/usr/lib -lfontconfig -lfreetype -lpng -lexpat -liconv -lcharset -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/freetype/lib -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libpng/lib -lfreetype -lpng
+Libs.private: 
+Cflags: -I${includedir}

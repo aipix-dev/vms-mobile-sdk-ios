@@ -1,0 +1,11 @@
+framework module VMSMobileSDK {
+  umbrella header "VMSMobileSDK.h"
+  export *
+
+  module * { export * }
+}
+
+module VMSMobileSDK.Swift {
+  header "VMSMobileSDK-Swift.h"
+  requires objc
+}

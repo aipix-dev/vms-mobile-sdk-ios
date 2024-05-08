@@ -1,0 +1,2138 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name VMSMobileSDK
+import AVFoundation
+import Alamofire
+import CoreHaptics
+import CryptoKit
+import DeveloperToolsSupport
+import Foundation
+import Network
+import Photos
+import Swift
+import SwiftUI
+import TweetNacl
+import UIKit
+@_exported import VMSMobileSDK
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public protocol StaticsApi {
+  func checkUrl(api: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func getTranslations(info: VMSMobileSDK.VMSTranslationsRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSTranslationObject>)
+  func getStatic(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSStatic>)
+  func getBasicStatic(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBasicStatic>)
+  func sendFcmToken(token: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func sendApnToken(token: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func sendVoipToken(token: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.StaticsApi {
+  public func checkUrl(api: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func getTranslations(info: VMSMobileSDK.VMSTranslationsRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSTranslationObject>)
+  public func getStatic(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSStatic>)
+  public func getBasicStatic(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBasicStatic>)
+  public func sendFcmToken(token: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func sendApnToken(token: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func sendVoipToken(token: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+final public class VMSCamera : Swift.Decodable {
+  final public let id: Swift.Int
+  final public var status: VMSMobileSDK.VMSCameraStatusType!
+  final public var streams: [VMSMobileSDK.VMSStream]?
+  final public var name: Swift.String?
+  final public var startAt: Foundation.Date?
+  final public var previewDateString: Swift.String?
+  final public var previewUrl: Swift.String?
+  final public var prettyText: Swift.String?
+  final public var isFavorite: Swift.Bool
+  final public var isRestrictedLive: Swift.Bool?
+  final public var isRestrictedArchive: Swift.Bool?
+  final public var archiveRanges: [VMSMobileSDK.VMSArchiveRanges]?
+  final public var services: VMSMobileSDK.VMSCameraServices?
+  final public var hasPTZ: Swift.Bool?
+  final public var hasMotionDetect: Swift.Bool?
+  final public var durations: [CoreFoundation.CGFloat]?
+  final public var startFrom: [CoreFoundation.CGFloat]?
+  final public var userStatus: VMSMobileSDK.VMSUserStatusType?
+  final public var isBridge: Swift.Bool
+  public init(id: Swift.Int)
+  public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+public enum VMSUserStatusType : Swift.String, Swift.Decodable {
+  case active
+  case blocked
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMSCameraStatusType : Swift.String, Swift.Decodable {
+  case active
+  case inactive
+  case partial
+  case empty
+  case initial
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+extension VMSMobileSDK.VMSCamera {
+  final public func highStream() -> VMSMobileSDK.VMSStream?
+  final public func lowStream() -> VMSMobileSDK.VMSStream?
+  final public func nullStreams() -> VMSMobileSDK.VMSStream?
+}
+extension VMSMobileSDK.VMSCamera : VMSMobileSDK.VMSAnalyticType {
+  final public func getId() -> Swift.Int
+  final public func typeName() -> Swift.String
+  final public func titleName() -> Swift.String
+}
+final public class VMSCameraServices : Swift.Decodable {
+  final public var ptz: Swift.Bool?
+  final public var motionDetect: Swift.Bool?
+  public init(ptz: Swift.Bool? = nil, motionDetect: Swift.Bool? = nil)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSArchiveRanges : Swift.Decodable {
+  final public var duration: CoreFoundation.CGFloat?
+  final public var from: CoreFoundation.CGFloat?
+  final public var end: CoreFoundation.CGFloat?
+  final public func rangeEnd() -> CoreFoundation.CGFloat?
+  public init(duration: CoreFoundation.CGFloat? = nil, from: CoreFoundation.CGFloat? = nil, end: CoreFoundation.CGFloat? = nil)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSCameraPreview : Swift.Decodable {
+  final public let preview: Swift.String?
+  final public var status: VMSMobileSDK.VMSUserStatusType?
+  final public var cameraId: Swift.Int!
+  public init(preview: Swift.String?, status: VMSMobileSDK.VMSUserStatusType? = nil, cameraId: Swift.Int)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol VMSDelegate : AnyObject {
+  func apiDidReceiveError(_ error: VMSMobileSDK.VMSApiError, request: VMSMobileSDK.VMSRequest)
+  func apiRequestSucceed(_ request: VMSMobileSDK.VMSRequest)
+}
+open class VMS {
+  open var headersBuilder: any VMSMobileSDK.HeadersBuilder
+  open var urlBuilder: any VMSMobileSDK.URLBuilder
+  open var sessionManager: Alamofire.SessionManager
+  weak public var delegate: (any VMSMobileSDK.VMSDelegate)?
+  open var serverDateFormatter: Foundation.DateFormatter
+  public init(baseUrl: Swift.String, language: Swift.String?, accessToken: Swift.String?)
+  public func setLanguage(_ language: Swift.String)
+  public func getLanguage() -> Swift.String
+  public func setSocketId(socketId: Swift.String?)
+  @discardableResult
+  open func request(url: Swift.String, method: Alamofire.HTTPMethod, parameters: Alamofire.Parameters? = nil, encoding: (any Alamofire.ParameterEncoding)? = nil, completion: @escaping VMSMobileSDK.VMSResultDataBlock) -> Alamofire.DataRequest?
+  @discardableResult
+  open func request(path: Swift.String, version: Swift.Int? = nil, method: Alamofire.HTTPMethod, parameters: Alamofire.Parameters? = nil, encoding: (any Alamofire.ParameterEncoding)? = nil, completion: @escaping VMSMobileSDK.VMSResultDataBlock) -> Alamofire.DataRequest?
+  public func repeatRequest(_ request: VMSMobileSDK.VMSRequest)
+  open func downloadArchiveRequest(url: Foundation.URL, destinationUrl: Foundation.URL, progressHandler: @escaping ((Foundation.Progress) -> Swift.Void), completionHandler: @escaping (((any Swift.Error)?) -> Swift.Void))
+  public func cancelDownloadArchiveRequest()
+  open func getErrorFromData(data: Foundation.Data) -> Swift.String?
+  public static func encoding(for method: Alamofire.HTTPMethod) -> any Alamofire.ParameterEncoding
+  @objc deinit
+}
+public struct VMSRequest {
+  public let url: Swift.String
+  public let method: Alamofire.HTTPMethod
+  public let parameters: Alamofire.Parameters?
+  public let completion: VMSMobileSDK.VMSResultDataBlock
+}
+final public class VMSAnalyticCase : Swift.Decodable {
+  final public var id: Swift.Int!
+  final public var title: Swift.String?
+  final public var color: Swift.String?
+  final public var createdAt: Foundation.Date?
+  final public var type: Swift.String?
+  final public var typePretty: Swift.String?
+  final public var availableEvents: [VMSMobileSDK.VMSAnalyticEvent]?
+  public init(from decoder: any Swift.Decoder) throws
+  public init(id: Swift.Int, title: Swift.String? = nil, color: Swift.String? = nil, type: Swift.String? = nil, typePretty: Swift.String? = nil, availableEvents: [VMSMobileSDK.VMSAnalyticEvent]? = nil)
+  @objc deinit
+}
+extension VMSMobileSDK.VMSAnalyticCase : VMSMobileSDK.VMSAnalyticType {
+  final public func getId() -> Swift.Int
+  final public func typeName() -> Swift.String
+  final public func titleName() -> Swift.String
+}
+public enum VMSAppSocketType : Swift.String, Swift.Decodable {
+  case camerasUpdate
+  case removeFavoriteCamera
+  case favoriteCamera
+  case permissionsUpdate
+  case layoutsUpdate
+  case groupsUpdate
+  case groupsCreated
+  case groupsDeleted
+  case cameraGroupsSynced
+  case markCreated
+  case markDeleted
+  case markUpdated
+  case archiveGenerated
+  case logout
+  case analyticCaseMotionDetectEventCreated
+  case analyticCaseLineIntersectionEventCreated
+  case analyticCaseSmokeFireEventCreated
+  case analyticCaseLoudSoundEventCreated
+  case analyticCaseCameraObstacleEventCreated
+  case analyticCaseFaceEventCreated
+  case analyticCaseLicensePlateEventCreated
+  case analyticCasePersonCountingEventCreated
+  case analyticCaseVisitorCountingEventCreated
+  case analyticCaseContainerNumberRecognitionEventCreated
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMSAppSocketData {
+  case camerasUpdate(VMSMobileSDK.VMSCamerasUpdateSocket)
+  case addFavoriteCamera(VMSMobileSDK.VMSFavoriteCamerasUpdateSocket)
+  case removeFavoriteCamera(VMSMobileSDK.VMSFavoriteCamerasUpdateSocket)
+  case permissionsUpdate
+  case groupsUpdate
+  case groupsCreated(VMSMobileSDK.VMSCameraGroup)
+  case groupsDeleted([Swift.Int])
+  case cameraGroupsSynced
+  case eventCreated(VMSMobileSDK.VMSEvent)
+  case eventDeleted(VMSMobileSDK.VMSEvent)
+  case eventUpdated(VMSMobileSDK.VMSEvent)
+  case analyticEventCreated(VMSMobileSDK.VMSEvent)
+  case archiveGenerated(VMSMobileSDK.VMSArchiveLinkSocket)
+  case logout(Swift.String?)
+}
+public struct VMSCamerasUpdateSocket : Swift.Decodable {
+  public let detached: [Swift.Int]?
+  public let attached: [Swift.Int]?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSFavoriteCamerasUpdateSocket : Swift.Decodable {
+  public let cameraId: Swift.Int
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSArchiveLinkSocket : Swift.Decodable {
+  public let url: Swift.String?
+  public let download: VMSMobileSDK.VMSArchiveLinkSocket.VMSDownloadUrlData?
+  public struct VMSDownloadUrlData : Swift.Decodable {
+    public let url: Swift.String?
+    public init(from decoder: any Swift.Decoder) throws
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension VMSMobileSDK.PusherError {
+  @objc dynamic public var codeOC: Foundation.NSNumber? {
+    @objc get
+  }
+}
+final public class VMSWidgetCamera : Swift.Decodable, Swift.Hashable {
+  public enum StatusType : Swift.String, Swift.Decodable {
+    case active
+    case inactive
+    case partial
+    case empty
+    case initial
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum UserStatus : Swift.String, Swift.Decodable {
+    case active
+    case blocked
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public var id: Swift.Int!
+  final public var name: Swift.String?
+  final public var previewDateString: Swift.String?
+  final public var status: VMSMobileSDK.VMSWidgetCamera.StatusType?
+  final public var userStatus: VMSMobileSDK.VMSWidgetCamera.UserStatus?
+  final public var isFavorite: Swift.Bool?
+  public init(id: Swift.Int, name: Swift.String)
+  final public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: VMSMobileSDK.VMSWidgetCamera, rhs: VMSMobileSDK.VMSWidgetCamera) -> Swift.Bool
+  public init(id: Swift.Int)
+  @objc deinit
+  final public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension VMSMobileSDK.VMSWidgetCamera {
+  final public var previewDate: Swift.String {
+    get
+  }
+  final public func setImage(_ image: UIKit.UIImage)
+  final public func getImage() -> UIKit.UIImage?
+}
+@objcMembers @objc public class OCAuthMethod : ObjectiveC.NSObject {
+  @objc public init(type: Swift.Int)
+  @objc public init(authEndpoint: Swift.String)
+  @objc public init(authRequestBuilder: any VMSMobileSDK.AuthRequestBuilderProtocol)
+  @objc public init(secret: Swift.String)
+  @objc public init(authorizer: any VMSMobileSDK.Authorizer)
+  @objc deinit
+}
+public class VMSBridgeStorage : Swift.Decodable {
+  final public let id: Swift.Int
+  public var path: Swift.String?
+  public var usage: Swift.Double
+  public var capacity: Swift.Double
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc open class Pusher : ObjectiveC.NSObject {
+  @objc final public let connection: VMSMobileSDK.PusherConnection
+  @objc weak open var delegate: (any VMSMobileSDK.PusherDelegate)? {
+    @objc get
+    @objc set
+  }
+  @objc public init(key: Swift.String, options: VMSMobileSDK.PusherClientOptions = PusherClientOptions())
+  @objc open func subscribe(_ channelName: Swift.String, auth: VMSMobileSDK.PusherAuth? = nil, onMemberAdded: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil, onMemberRemoved: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil) -> VMSMobileSDK.PusherChannel
+  @objc open func subscribeToPresenceChannel(channelName: Swift.String, auth: VMSMobileSDK.PusherAuth? = nil, onMemberAdded: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil, onMemberRemoved: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil) -> VMSMobileSDK.PusherPresenceChannel
+  @objc open func unsubscribe(_ channelName: Swift.String)
+  @objc open func unsubscribeAll()
+  @objc @discardableResult
+  open func bind(eventCallback: @escaping (VMSMobileSDK.PusherEvent) -> Swift.Void) -> Swift.String
+  @objc open func unbind(callbackId: Swift.String)
+  @objc open func unbindAll()
+  @objc open func disconnect()
+  @objc open func connect()
+  @objc deinit
+}
+@objc extension VMSMobileSDK.PusherConnection {
+  @objc dynamic public var OCReconnectAttemptsMax: Foundation.NSNumber? {
+    @objc get
+    @objc set(newValue)
+  }
+  @objc dynamic public var OCMaxReconnectGapInSeconds: Foundation.NSNumber? {
+    @objc get
+    @objc set(newValue)
+  }
+}
+open class NWWebSocket : VMSMobileSDK.WebSocketConnection {
+  weak public var delegate: (any VMSMobileSDK.WebSocketConnectionDelegate)?
+  public static var defaultOptions: Network.NWProtocolWebSocket.Options {
+    get
+  }
+  convenience public init(request: Foundation.URLRequest, connectAutomatically: Swift.Bool = false, options: Network.NWProtocolWebSocket.Options = NWWebSocket.defaultOptions, connectionQueue: Dispatch.DispatchQueue = .main)
+  public init(url: Foundation.URL, connectAutomatically: Swift.Bool = false, options: Network.NWProtocolWebSocket.Options = NWWebSocket.defaultOptions, connectionQueue: Dispatch.DispatchQueue = .main)
+  open func connect()
+  open func send(string: Swift.String)
+  open func send(data: Foundation.Data)
+  public func listen()
+  open func ping(interval: Foundation.TimeInterval, string: Swift.String)
+  open func ping(string: Swift.String)
+  open func disconnect(closeCode: Network.NWProtocolWebSocket.CloseCode = .protocolCode(.normalClosure))
+  @objc deinit
+}
+final public class VMSSession : Swift.Decodable {
+  final public var id: Swift.String!
+  final public var userAgent: Swift.String?
+  final public var online: Swift.Bool!
+  final public var client: Swift.String?
+  final public var ip: Swift.String?
+  final public var isCurrent: Swift.Bool!
+  public init(id: Swift.String, userAgent: Swift.String? = nil, online: Swift.Bool, client: Swift.String? = nil, ip: Swift.String? = nil, isCurrent: Swift.Bool)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSTimetable : Swift.Decodable {
+  final public var days: [VMSMobileSDK.VMSDays]?
+  final public var intervals: [VMSMobileSDK.VMSIntervals]?
+  public init(days: [VMSMobileSDK.VMSDays]?, intervals: [VMSMobileSDK.VMSIntervals]?)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSDays : Swift.Decodable {
+  public enum DayOfWeek : Swift.String, Swift.Codable {
+    case monday
+    case tuesday
+    case wednesday
+    case thursday
+    case friday
+    case saturday
+    case sunday
+    case sameEveryDay
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public var type: VMSMobileSDK.VMSDays.DayOfWeek?
+  final public var from: Swift.String?
+  final public var to: Swift.String?
+  public init(type: VMSMobileSDK.VMSDays.DayOfWeek?, from: Swift.String?, to: Swift.String?)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSIntervals : Swift.Decodable {
+  final public var from: Swift.String?
+  final public var to: Swift.String?
+  public init(from: Swift.String?, to: Swift.String?)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSPermission : Swift.Codable {
+  final public let id: Swift.Int?
+  final public let details: Swift.String?
+  final public let name: Swift.String?
+  final public let type: VMSMobileSDK.VMSPermission.PermissionType
+  final public let typeString: Swift.String?
+  public enum PermissionType : Swift.String, Swift.Codable {
+    case LayoutsStore
+    case LayoutsDestroy
+    case LayoutsRename
+    case LayoutsCamerasAttach
+    case LayoutsCamerasDetach
+    case GroupsIndex
+    case GroupsStore
+    case GroupsDestroy
+    case GroupsRename
+    case GroupsCamerasAttach
+    case GroupsCamerasDetach
+    case ArhivesShow
+    case ArhivesDownload
+    case ArhivesPreviewDownload
+    case Ptz
+    case CameraEventsStore
+    case CameraEventsIndex
+    case LoginsStore
+    case UsersIndex
+    case UsersStore
+    case UsersShow
+    case UsersUpdate
+    case UsersDestroy
+    case UsersChangePassword
+    case MarksIndex
+    case MarksStore
+    case MarksDestroy
+    case MarksUpdate
+    case IntercomIndex
+    case Analytic
+    case AnalyticCasesIndex
+    case Bridge
+    case IntercomFace
+    case Unknown
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(from decoder: any Swift.Decoder) throws
+  final public func encode(to encoder: any Swift.Encoder) throws
+  @objc deinit
+}
+extension VMSMobileSDK.PusherHost {
+  public func toObjc() -> VMSMobileSDK.OCPusherHost
+  public static func fromObjc(source: VMSMobileSDK.OCPusherHost) -> VMSMobileSDK.PusherHost
+}
+final public class VMSIntercom : Swift.Decodable {
+  public enum AnswerDevicesType : Swift.String, Swift.Decodable {
+    case current
+    case landline
+    case analog
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum IntercomStatus : Swift.String, Swift.Decodable {
+    case keyConfirmed
+    case confirmed
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public let id: Swift.Int
+  final public var title: Swift.String?
+  final public var department: Swift.Int?
+  final public var address: Swift.String?
+  final public var isEnabled: Swift.Bool?
+  final public var camera: VMSMobileSDK.VMSIntercomCamera?
+  final public var status: VMSMobileSDK.VMSIntercom.IntercomStatus?
+  final public var timetable: VMSMobileSDK.VMSTimetable?
+  final public var isOnline: Swift.Bool?
+  final public var isAnalyticAvailable: Swift.Bool?
+  final public var availableAnswerDevices: [VMSMobileSDK.VMSIntercom.AnswerDevicesType]?
+  final public var isLandlineSipLineAvailable: Swift.Bool?
+  final public var isAnalogLineAvailable: Swift.Bool?
+  final public var isOpenDoorCode: Swift.Bool!
+  final public var isOpenDoorFace: Swift.Bool!
+  final public var isOpenDoorApp: Swift.Bool!
+  public init(id: Swift.Int, isEnabled: Swift.Bool)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSActivationCode : Swift.Decodable {
+  final public var code: Swift.String!
+  final public var expireInSeconds: Swift.Int!
+  public init(code: Swift.String, expireInSeconds: Swift.Int)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSIntercomCamera : Swift.Decodable {
+  public enum StatusType : Swift.String, Swift.Decodable {
+    case active
+    case inactive
+    case partial
+    case empty
+    case initial
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum UserStatus : Swift.String, Swift.Decodable {
+    case active
+    case blocked
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public let id: Swift.Int
+  final public var groupId: Swift.Int!
+  final public var status: VMSMobileSDK.VMSIntercomCamera.StatusType?
+  final public var startAt: Swift.String?
+  final public var createdAt: Swift.String?
+  final public var prettyName: Swift.String?
+  final public var isBridge: Swift.Bool?
+  final public var isFavorite: Swift.Bool?
+  final public var isRestrictedLive: Swift.Bool?
+  final public var isRestrictedArchive: Swift.Bool?
+  final public var userStatus: VMSMobileSDK.VMSIntercomCamera.UserStatus?
+  final public var name: Swift.String!
+  public init(id: Swift.Int, groupId: Swift.Int, status: VMSMobileSDK.VMSIntercomCamera.StatusType? = nil, startAt: Swift.String? = nil, createdAt: Swift.String? = nil, prettyName: Swift.String? = nil, isBridge: Swift.Bool? = nil, isFavorite: Swift.Bool? = nil, isRestrictedLive: Swift.Bool? = nil, isRestrictedArchive: Swift.Bool? = nil, userStatus: VMSMobileSDK.VMSIntercomCamera.UserStatus? = nil, name: Swift.String)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum VideoQuality : Swift.String {
+  case high
+  case low
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum MarksOptions : Swift.String {
+  case show
+  case dontShow
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum OptionsTitle : Swift.String {
+  case marks
+  case speed
+  case marksList
+  case quality
+  case download
+  case playbackProtocol
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMSVideoEventOptions : Swift.Equatable {
+  case all
+  case types([Swift.String])
+  case none
+  public init(value: [Swift.String], fromTranslations: VMSMobileSDK.VMSPlayerTranslations)
+  public func value(fromTranslations: VMSMobileSDK.VMSPlayerTranslations) -> [Swift.String]
+  public static func == (a: VMSMobileSDK.VMSVideoEventOptions, b: VMSMobileSDK.VMSVideoEventOptions) -> Swift.Bool
+}
+@_hasMissingDesignatedInitializers public class VideoOptions {
+  public enum OptionsViewType {
+    case live(VMSMobileSDK.VMSStream.QualityType, Swift.Bool, VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+    case archive(Swift.Double, VMSMobileSDK.VMSVideoEventOptions, Swift.Bool, VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+    case quality(VMSMobileSDK.VMSStream.QualityType)
+    case speed(Swift.Double, VMSMobileSDK.VMSStream.VideoCodec)
+    case events(VMSMobileSDK.VMSVideoEventOptions)
+    case playback(VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+  }
+  public enum OptionsRowDataType {
+    case eventsList
+    case speed(Swift.Double)
+    case events(VMSMobileSDK.VMSVideoEventOptions)
+    case downloadArchive
+    case quality(VMSMobileSDK.VMSStream.QualityType)
+    case playback(VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+    public func title(fromTranslations: VMSMobileSDK.VMSPlayerTranslations) -> Swift.String
+    public func details(fromTranslations: VMSMobileSDK.VMSPlayerTranslations, allMarkTypes: [VMSMobileSDK.VMSEventType]) -> Swift.String?
+    public func imageName() -> Swift.String
+  }
+  public enum OptionSeparationResult {
+    case eventsList
+    case speed
+    case events
+    case downloadArchive
+    case quality
+    case playback
+    public init?(localizedString: Swift.String, fromTranslations: VMSMobileSDK.VMSPlayerTranslations)
+    public static func == (a: VMSMobileSDK.VideoOptions.OptionSeparationResult, b: VMSMobileSDK.VideoOptions.OptionSeparationResult) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public enum OptionSingleResult {
+    case speed(Swift.Double)
+    case quality(VMSMobileSDK.VideoQuality)
+    case playback(VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+    public init?(value: Swift.String, fromTranslations: VMSMobileSDK.VMSPlayerTranslations)
+  }
+  @objc deinit
+}
+@_inheritsConvenienceInitializers @objcMembers @objc open class PusherChannels : ObjectiveC.NSObject {
+  @objc open var channels: [Swift.String : VMSMobileSDK.PusherChannel] {
+    @objc get
+    @objc set
+  }
+  @objc public func find(name: Swift.String) -> VMSMobileSDK.PusherChannel?
+  @objc public func findPresence(name: Swift.String) -> VMSMobileSDK.PusherPresenceChannel?
+  @objc override dynamic public init()
+  @objc deinit
+}
+@objc public protocol Authorizer {
+  @objc func fetchAuthValue(socketID: Swift.String, channelName: Swift.String, completionHandler: @escaping (VMSMobileSDK.PusherAuth?) -> Swift.Void)
+}
+extension VMSMobileSDK.AuthMethod {
+  public func toObjc() -> VMSMobileSDK.OCAuthMethod
+  public static func fromObjc(source: VMSMobileSDK.OCAuthMethod) -> VMSMobileSDK.AuthMethod
+}
+public class VMSPusherApi : VMSMobileSDK.VMSSocketManager {
+  public var pusher: VMSMobileSDK.Pusher?
+  weak public var delegate: (any VMSMobileSDK.VMSSocketManagerDelegate)?
+  public init(baseUrl: Swift.String, socketUrl: Swift.String, appKey: Swift.String, userToken: Swift.String, userId: Swift.Int, accessTokenId: Swift.String)
+  final public func disconnect()
+  final public func isConnected() -> Swift.Bool
+  final public func getSocketId() -> Swift.String?
+  final public func connect()
+  @objc deinit
+}
+extension VMSMobileSDK.VMSPusherApi : VMSMobileSDK.PusherDelegate {
+  @objc dynamic public func debugLog(message: Swift.String)
+  @objc dynamic public func changedConnectionState(from old: VMSMobileSDK.ConnectionState, to new: VMSMobileSDK.ConnectionState)
+  @objc dynamic public func receivedError(error: VMSMobileSDK.PusherError)
+  @objc dynamic public func subscribedToChannel(name: Swift.String)
+  @objc dynamic public func subscribedToChannelNoDataInPayload(name: Swift.String)
+  @objc dynamic public func failedToSubscribeToChannel(name: Swift.String, response: Foundation.URLResponse?, data: Swift.String?, error: Foundation.NSError?)
+}
+@objc public enum ConnectionState : Swift.Int {
+  case connecting
+  case connected
+  case disconnecting
+  case disconnected
+  case reconnecting
+  public func stringValue() -> Swift.String
+  public init?(rawValue: Swift.Int)
+  public typealias RawValue = Swift.Int
+  public var rawValue: Swift.Int {
+    get
+  }
+}
+public protocol SessionsApi {
+  func getSessionsList(completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSSession]>)
+  func deleteSession(with id: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.SessionsApi {
+  public func getSessionsList(completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSSession]>)
+  public func deleteSession(with id: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+public func isSmallIPhone() -> Swift.Bool
+extension UIKit.UIDevice {
+  @_Concurrency.MainActor(unsafe) public static func vibrate(isAllowed: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public static func selectionVibrate(isAllowed: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public static func successVibration(isAllowed: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public static func warningVibration(isAllowed: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) public static var modelIdentifier: Swift.String {
+    get
+  }
+  @_Concurrency.MainActor(unsafe) public static var isHapticsSupported: Swift.Bool {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers open class PusherError : ObjectiveC.NSObject {
+  final public let code: Swift.Int?
+  @objc final public let message: Swift.String
+  @objc deinit
+}
+public struct VMSSessionResponse : Swift.Decodable {
+  public var sessionsLimit: Swift.Int?
+  public var sessions: [VMSMobileSDK.VMSSession]?
+  public var loginKey: Swift.String?
+  public var captchaWillRequireIn: Swift.Int?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSUserResponse : Swift.Decodable {
+  public let user: VMSMobileSDK.VMSUser
+  public let accessToken: Swift.String
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSUrlStringResponse : Swift.Decodable {
+  public let url: Swift.String
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSCameraPreviewResponse : Swift.Decodable {
+  public let preview: Swift.String
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSTypeGroupResponse : Swift.Decodable {
+  public let type: VMSMobileSDK.VMSGroupSyncType
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSRewindEventResponse : Swift.Decodable {
+  public let mark: VMSMobileSDK.VMSEvent?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum VMSGroupSyncType : Swift.String, Swift.Decodable {
+  case sync
+  case async
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct VMSSocketResponse : Swift.Decodable {
+  public let wsUrl: Swift.String
+  public let appKey: Swift.String
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSPlayerOptions {
+  public enum VMSPlayerType : Swift.String, Swift.CaseIterable {
+    case rtspH264
+    case rtspH265
+    public init?(rawValue: Swift.String)
+    public typealias AllCases = [VMSMobileSDK.VMSPlayerOptions.VMSPlayerType]
+    public typealias RawValue = Swift.String
+    public static var allCases: [VMSMobileSDK.VMSPlayerOptions.VMSPlayerType] {
+      get
+    }
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public init(language: Swift.String, allowVibration: Swift.Bool? = nil, allowSoundOnStart: Swift.Bool? = nil, markTypes: [VMSMobileSDK.VMSEventType], videoRates: [Swift.Double], onlyScreenshotMode: Swift.Bool = false, defaultPlayerType: VMSMobileSDK.VMSPlayerOptions.VMSPlayerType = .rtspH265, askForNet: Swift.Bool = false, defaultQuality: VMSMobileSDK.VMSStream.QualityType = .high)
+}
+public protocol CameraApi {
+  func getCamerasTree(search: Swift.String?, completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSCameraTree]>)
+  func getSearchCameras(search: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSCamera]>)
+  func cancelSearchCamerasRequest()
+  func getCamera(with cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCamera>)
+  func cancelCameraInfoRequest(with cameraId: Swift.Int)
+  func renameCamera(with id: Swift.Int, name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCamera>)
+  func sendReport(info: VMSMobileSDK.VMSReportRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func getCameraPreviewURL(with cameraId: Swift.Int, date: Swift.String?, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraPreviewResponse>)
+  func cancelCameraPreviewURLRequest(with cameraId: Swift.Int)
+  func downloadCameraPreviewFile(url: Foundation.URL, destinationUrl: Foundation.URL, completionHandler: @escaping ((Foundation.URL?, (any Swift.Error)?) -> Swift.Void))
+  func cancelDownloadCameraPreviewRequest(url: Foundation.URL)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.CameraApi {
+  public func getCamerasTree(search: Swift.String?, completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSCameraTree]>)
+  public func getSearchCameras(search: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSCamera]>)
+  public func cancelSearchCamerasRequest()
+  public func getCamera(with cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCamera>)
+  public func cancelCameraInfoRequest(with cameraId: Swift.Int)
+  public func renameCamera(with id: Swift.Int, name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCamera>)
+  public func sendReport(info: VMSMobileSDK.VMSReportRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func getCameraPreviewURL(with cameraId: Swift.Int, date: Swift.String?, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraPreviewResponse>)
+  public func cancelCameraPreviewURLRequest(with cameraId: Swift.Int)
+  public func downloadCameraPreviewFile(url: Foundation.URL, destinationUrl: Foundation.URL, completionHandler: @escaping ((Foundation.URL?, (any Swift.Error)?) -> Swift.Void))
+  public func cancelDownloadCameraPreviewRequest(url: Foundation.URL)
+}
+final public class VMSEventType : Swift.Codable {
+  final public var name: Swift.String!
+  final public var description: Swift.String?
+  final public var title: Swift.String?
+  final public var color: Swift.String?
+  final public var analyticType: Swift.String?
+  public static let defaultType: Swift.String
+  public init(name: Swift.String, description: Swift.String? = nil, title: Swift.String? = nil, color: Swift.String? = nil, analyticType: Swift.String? = nil)
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension VMSMobileSDK.VMSEventType : VMSMobileSDK.VMSAnalyticType {
+  final public func getId() -> Swift.Int
+  final public func typeName() -> Swift.String
+  final public func titleName() -> Swift.String
+}
+@objc public protocol PusherDelegate {
+  @objc optional func debugLog(message: Swift.String)
+  @objc optional func changedConnectionState(from old: VMSMobileSDK.ConnectionState, to new: VMSMobileSDK.ConnectionState)
+  @objc optional func subscribedToChannelNoDataInPayload(name: Swift.String)
+  @objc optional func subscribedToChannel(name: Swift.String)
+  @objc optional func failedToSubscribeToChannel(name: Swift.String, response: Foundation.URLResponse?, data: Swift.String?, error: Foundation.NSError?)
+  @objc optional func failedToDecryptEvent(eventName: Swift.String, channelName: Swift.String, data: Swift.String?)
+  @objc(receivedError:) optional func receivedError(error: VMSMobileSDK.PusherError)
+}
+public protocol VMSPlayerDelegate : AnyObject {
+  func playerDidAppear()
+  func playerDidEnd()
+  func gotoEventsList(camera: VMSMobileSDK.VMSCamera)
+  func soundChanged(isOn: Swift.Bool)
+  func qualityChanged(quality: VMSMobileSDK.VMSStream.QualityType)
+  func playerTypeChanged(type: VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+  func screenshotCreated(image: UIKit.UIImage, cameraName: Swift.String, date: Foundation.Date)
+  func marksFiltered(markTypes: [VMSMobileSDK.VMSEventType])
+  func logPlayerEvent(event: Swift.String)
+  func playerDidReceiveError(message: Swift.String)
+  func playerDidReceiveInfo(message: Swift.String)
+  func dismissPlayerErrors()
+  func isUserAllowForNet()
+}
+extension VMSMobileSDK.VMSPlayerDelegate {
+  public func playerDidAppear()
+  public func playerDidEnd()
+  public func soundChanged(isOn: Swift.Bool)
+  public func qualityChanged(quality: VMSMobileSDK.VMSStream.QualityType)
+  public func marksFiltered(markTypes: [VMSMobileSDK.VMSEventType])
+  public func logPlayerEvent(event: Swift.String)
+  public func playerDidReceiveInfo(message: Swift.String)
+}
+public struct VMSLoginRequest {
+  public let login: Swift.String
+  public let password: Swift.String
+  public let sessionId: Swift.String?
+  public let captcha: Swift.String?
+  public let captchaKey: Swift.String?
+  public init(login: Swift.String, password: Swift.String, captcha: Swift.String?, captchaKey: Swift.String?, sessionId: Swift.String?)
+}
+public struct VMSLoginExternalRequest {
+  public let loginKey: Swift.String?
+  public let code: Swift.String?
+  public let sessionId: Swift.String?
+  public init(loginKey: Swift.String?, code: Swift.String?, sessionId: Swift.String?)
+}
+public struct VMSChangePasswordRequest {
+  public let new: Swift.String
+  public let old: Swift.String
+  public let confirmNew: Swift.String
+  public init(new: Swift.String, old: Swift.String, confirmNew: Swift.String)
+}
+public struct VMSTranslationsRequest {
+  public let language: Swift.String
+  public let revision: Swift.Int
+  public init(language: Swift.String, revision: Swift.Int)
+}
+public struct VMSReportRequest {
+  public let issueId: Swift.Int
+  public let cameraId: Swift.Int
+  public init(issueId: Swift.Int, cameraId: Swift.Int)
+}
+public struct VMSUpdateGroupRequest {
+  public let groupName: Swift.String
+  public let groupId: Swift.Int
+  public let cameraIds: [Swift.Int]
+  public init(groupName: Swift.String, groupId: Swift.Int, cameraIds: [Swift.Int])
+}
+public enum VMSSortDirection : Swift.String {
+  case ascending
+  case descending
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMSEventTimePeriod {
+  case specific(VMSMobileSDK.VMSEventPeriod)
+  case setManualy(Foundation.Date, Foundation.Date)
+}
+public enum VMSEventPeriod : Swift.String, Swift.CaseIterable {
+  case today
+  case yesterday
+  case week
+  case thirtyDays
+  public init?(rawValue: Swift.String)
+  public typealias AllCases = [VMSMobileSDK.VMSEventPeriod]
+  public typealias RawValue = Swift.String
+  public static var allCases: [VMSMobileSDK.VMSEventPeriod] {
+    get
+  }
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct VMSEventsRequest {
+  public let cameraIds: [Swift.Int]
+  public let types: [Swift.String]
+  public let sortDirection: VMSMobileSDK.VMSSortDirection
+  public let timePeriod: VMSMobileSDK.VMSEventTimePeriod?
+  public init(cameraIds: [Swift.Int], types: [Swift.String], sortDirection: VMSMobileSDK.VMSSortDirection, timePeriod: VMSMobileSDK.VMSEventTimePeriod?)
+}
+public struct VMSEventsAnalyticRequest {
+  public let eventNames: [Swift.String]
+  public let caseIds: [Swift.Int]
+  public let cameraIds: [Swift.Int]
+  public let analyticEventTypes: [Swift.String]
+  public let sortDirection: VMSMobileSDK.VMSSortDirection
+  public let timePeriod: VMSMobileSDK.VMSEventTimePeriod?
+  public init(eventNames: [Swift.String], caseIds: [Swift.Int], cameraIds: [Swift.Int], types: [Swift.String], sortDirection: VMSMobileSDK.VMSSortDirection, timePeriod: VMSMobileSDK.VMSEventTimePeriod?)
+}
+public struct VMSIntercomFaceRecognitionRequest {
+  public let timePeriod: VMSMobileSDK.VMSEventTimePeriod?
+  public init(timePeriod: VMSMobileSDK.VMSEventTimePeriod?)
+}
+public struct VMSIntercomFaceRecognitionResourceRequest {
+  public let name: Swift.String
+  public let image: Foundation.Data
+  public init(name: Swift.String, image: Foundation.Data)
+}
+public struct VMSBridgeCreateRequest {
+  public let name: Swift.String
+  public let mac: Swift.String?
+  public let serialNumber: Swift.String?
+  public init?(name: Swift.String, mac: Swift.String?, serialNumber: Swift.String?)
+}
+public enum VMSRewindDirection : Swift.String {
+  case next
+  case previous
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMSPTZDirection : Swift.String {
+  case up
+  case down
+  case left
+  case right
+  case zoomIn
+  case zoomOut
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public struct VMSVoipCall : Swift.Decodable {
+  public let sip: Swift.String
+  public let number: Swift.String
+  public let host: Swift.String
+  public init(sip: Swift.String, number: Swift.String, callId: Swift.String, host: Swift.String)
+  public init(from decoder: any Swift.Decoder) throws
+}
+public class VMSBridge : Swift.Decodable {
+  final public let id: Swift.Int
+  public var name: Swift.String?
+  public var uuid: Swift.String?
+  public var serialNumber: Swift.String?
+  public var mac: Swift.String?
+  public var status: Swift.String?
+  public var isOnline: Swift.Bool
+  public var updatedAt: Foundation.Date?
+  public var createdAt: Foundation.Date?
+  public var storages: [VMSMobileSDK.VMSBridgeStorage]?
+  public var camerasCount: Swift.Int
+  public var version: Swift.String?
+  public var lastUpdatedAt: Foundation.Date?
+  required public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+final public class VMSAnalyticFile : Swift.Decodable {
+  final public var id: Swift.Int!
+  final public var name: Swift.String!
+  final public var type: Swift.String?
+  final public var typePretty: Swift.String?
+  final public var uuid: Swift.String?
+  final public var url: Swift.String?
+  final public var body: Swift.String?
+  final public var createdAt: Foundation.Date?
+  final public var updatedAt: Foundation.Date?
+  public init(from decoder: any Swift.Decoder) throws
+  public init(id: Swift.Int, name: Swift.String, url: Swift.String? = nil, type: Swift.String? = nil, typePretty: Swift.String? = nil, uuid: Swift.String? = nil, createdAt: Foundation.Date? = nil, updatedAt: Foundation.Date? = nil)
+  @objc deinit
+}
+extension VMSMobileSDK.VMSAnalyticFile : VMSMobileSDK.VMSAnalyticType {
+  final public func getId() -> Swift.Int
+  final public func typeName() -> Swift.String
+  final public func titleName() -> Swift.String
+}
+public class VMSPlayerTranslations {
+  open var dict: VMSMobileSDK.VMSTranslationDict
+  public init(translations: VMSMobileSDK.VMSTranslationDict)
+  public enum DictKeys : Swift.String {
+    case StreamNotAvailable
+    case ErrCameraUnavailalbe
+    case ErrCameraInitLong
+    case ErrCameraStreamsUnavailable
+    case ErrCantLoadArchive
+    case ErrCommonShort
+    case ErrDevicePerformance
+    case ErrLiveRestrictedShort
+    case ErrArchiveRestricted
+    case ErrStreamUnavailable
+    case ErrArchiveUnavailable
+    case ErrCameraInit
+    case CameraBlocked
+    case ErrInThisMoment
+    case ItTakesTimeToGenerateArchive
+    case ArchiveFormatError
+    case ArchivePeriodError
+    case ServerError
+    case ErrNoArchiveDate
+    case MarkCreateFailed
+    case MarkUpdateFailed
+    case TitleNoWifi
+    case MessageNoWifi
+    case InactiveCameraTitle
+    case InactiveCameraMessage
+    case NoNewerMarks
+    case NoOlderMarks
+    case OlderMarksNotAvailable
+    case MarkEmptyTitle
+    case MarkNewTitle
+    case MarkCreateTitle
+    case MarkCreateDate
+    case Monday
+    case Tuesday
+    case Wednesday
+    case Thursday
+    case Friday
+    case Saturday
+    case Sunday
+    case Minute
+    case Seconds
+    case Hour
+    case Day
+    case DownloadArchive
+    case ChooseTime
+    case ArchiveDownloadStartTime
+    case ArchiveDownloadEndTime
+    case HoursTitle
+    case MinutesTitle
+    case SecondsTitle
+    case DownloadArchiveTitle
+    case DownloadArchiveDescription
+    case CheckDone
+    case Done
+    case Cancel
+    case Continue
+    case Ok
+    case ApplySelected
+    case Saved
+    case Share
+    case Archive
+    case Live
+    case PlayerProtocolSelection
+    case RTSP
+    case HLS
+    case MarksOptionsShow
+    case MarksOptionsDontShow
+    case MarksListTitle
+    case SpeedTitle
+    case EventsAndMarks
+    case QualityTitle
+    case VideoHDShort
+    case VideoSDShort
+    case NormalSpeed
+    case UsersMarks
+    case DeleteScreenshot
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public func translate(_ key: VMSMobileSDK.VMSPlayerTranslations.DictKeys) -> Swift.String
+  public func displayName(forMark mark: VMSMobileSDK.VMSEventType) -> Swift.String
+  public func markType(forMarkName name: Swift.String) -> Swift.String
+  @objc deinit
+}
+@_hasMissingDesignatedInitializers @objcMembers @objc open class GlobalChannel : VMSMobileSDK.PusherChannel {
+  open var globalCallbacks: [Swift.String : (VMSMobileSDK.PusherEvent) -> Swift.Void]
+  @objc override open func unbindAll()
+  @objc deinit
+}
+final public class VMSCameraTree : Swift.Decodable {
+  final public var cameras: [VMSMobileSDK.VMSCamera]!
+  final public var children: [VMSMobileSDK.VMSCameraTree]?
+  final public var mainName: Swift.String?
+  final public var hasCameras: Swift.Bool
+  final public var subMain: Swift.String?
+  final public var previews: [VMSMobileSDK.VMSCameraPreview]?
+  public init(cameras: [VMSMobileSDK.VMSCamera])
+  public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+extension VMSMobileSDK.VMSCameraTree {
+  final public func getAllCameras() -> [VMSMobileSDK.VMSCamera]
+}
+final public class VMSCaptcha : Swift.Decodable {
+  final public var key: Swift.String!
+  final public var img: Swift.String!
+  final public var ttl: Swift.Int!
+  final public func getImage() -> UIKit.UIImage?
+  public init(key: Swift.String, img: Swift.String, ttl: Swift.Int)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol CameraEventsApi {
+  func getCameraEvents(with cameraId: Swift.Int, from: Foundation.Date, to: Foundation.Date, types: [Swift.String]?, completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSEvent]>)
+  func getNearestEvent(with cameraId: Swift.Int, from date: Foundation.Date, types: [Swift.String]?, direction: VMSMobileSDK.VMSRewindDirection, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSRewindEventResponse>)
+  func createEvent(cameraId: Swift.Int, eventName: Swift.String, from: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSEvent>)
+  func updateEvent(with id: Swift.Int, cameraId: Swift.Int, eventName: Swift.String, from: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSEvent>)
+  func deleteEvent(with id: Swift.Int, cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.CameraEventsApi {
+  public func getCameraEvents(with cameraId: Swift.Int, from: Foundation.Date, to: Foundation.Date, types: [Swift.String]?, completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSEvent]>)
+  public func getNearestEvent(with cameraId: Swift.Int, from date: Foundation.Date, types: [Swift.String]?, direction: VMSMobileSDK.VMSRewindDirection, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSRewindEventResponse>)
+  public func createEvent(cameraId: Swift.Int, eventName: Swift.String, from: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSEvent>)
+  public func updateEvent(with id: Swift.Int, cameraId: Swift.Int, eventName: Swift.String, from: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSEvent>)
+  public func deleteEvent(with id: Swift.Int, cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+public struct AnyCodable {
+  public let value: Any
+  public init<T>(_ value: T?)
+}
+extension VMSMobileSDK.AnyCodable : Swift.Codable {
+  public init(from decoder: any Swift.Decoder) throws
+  public func encode(to encoder: any Swift.Encoder) throws
+}
+extension VMSMobileSDK.AnyCodable : Swift.Equatable {
+  public static func == (lhs: VMSMobileSDK.AnyCodable, rhs: VMSMobileSDK.AnyCodable) -> Swift.Bool
+}
+extension VMSMobileSDK.AnyCodable : Swift.CustomStringConvertible {
+  public var description: Swift.String {
+    get
+  }
+}
+extension VMSMobileSDK.AnyCodable : Swift.CustomDebugStringConvertible {
+  public var debugDescription: Swift.String {
+    get
+  }
+}
+extension VMSMobileSDK.AnyCodable : Swift.ExpressibleByNilLiteral, Swift.ExpressibleByBooleanLiteral, Swift.ExpressibleByIntegerLiteral, Swift.ExpressibleByFloatLiteral, Swift.ExpressibleByStringLiteral, Swift.ExpressibleByArrayLiteral, Swift.ExpressibleByDictionaryLiteral {
+  public init(nilLiteral: ())
+  public init(booleanLiteral value: Swift.Bool)
+  public init(integerLiteral value: Swift.Int)
+  public init(floatLiteral value: Swift.Double)
+  public init(extendedGraphemeClusterLiteral value: Swift.String)
+  public init(stringLiteral value: Swift.String)
+  public init(arrayLiteral elements: Any...)
+  public init(dictionaryLiteral elements: (Swift.AnyHashable, Any)...)
+  public typealias ArrayLiteralElement = Any
+  public typealias BooleanLiteralType = Swift.Bool
+  public typealias ExtendedGraphemeClusterLiteralType = Swift.String
+  public typealias FloatLiteralType = Swift.Double
+  public typealias IntegerLiteralType = Swift.Int
+  public typealias Key = Swift.AnyHashable
+  public typealias StringLiteralType = Swift.String
+  public typealias UnicodeScalarLiteralType = Swift.String
+  public typealias Value = Any
+}
+public protocol AuthorizationApi {
+  func login(with login: VMSMobileSDK.VMSLoginRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUserResponse>)
+  func getCaptcha(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCaptcha>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.AuthorizationApi {
+  public func login(with login: VMSMobileSDK.VMSLoginRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUserResponse>)
+  public func getCaptcha(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCaptcha>)
+}
+public protocol IntercomApi {
+  func getIntercomsList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSIntercom>>)
+  func getIntercomCodesList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSIntercomCode>>)
+  func getIntercomEventsList(page: Swift.Int, request: VMSMobileSDK.VMSIntercomFaceRecognitionRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  func getIntercomCallsList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSIntercomCall>>)
+  func getActivateCode(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSActivationCode>)
+  func setIntercomFlat(intercomId: Swift.Int, flat: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercom>)
+  func renameIntercom(with id: Swift.Int, newName: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercom>)
+  func changeIntercomSettings(with id: Swift.Int, isEnabled: Swift.Bool?, timetable: VMSMobileSDK.VMSTimetable?, isLandlineEnabled: Swift.Bool?, isAnalogEnabled: Swift.Bool?, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercom>)
+  func openDoor(intercomId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func createCode(intercomId: Swift.Int, name: Swift.String, expiredAt: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercomCode>)
+  func deleteIntercoms(with ids: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func deleteIntercomCodes(with ids: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func deleteCalls(with ids: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func createFaceRecognitionAnalyticFile(intercomId: Swift.Int, request: VMSMobileSDK.VMSIntercomFaceRecognitionResourceRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSAnalyticFile>)
+  func updateIntercomAnalyticFileName(intercomId: Swift.Int, fileId: Swift.Int, name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSAnalyticFile>)
+  func deleteIntercomAnalyticFile(intercomId: Swift.Int, fileId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func getIntercomAnalyticFiles(page: Swift.Int, intercomId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSAnalyticFile>>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.IntercomApi {
+  public func getIntercomsList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSIntercom>>)
+  public func getIntercomCodesList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSIntercomCode>>)
+  public func getIntercomEventsList(page: Swift.Int, request: VMSMobileSDK.VMSIntercomFaceRecognitionRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  public func getIntercomCallsList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSIntercomCall>>)
+  public func getActivateCode(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSActivationCode>)
+  public func setIntercomFlat(intercomId: Swift.Int, flat: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercom>)
+  public func renameIntercom(with id: Swift.Int, newName: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercom>)
+  public func openDoor(intercomId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func createCode(intercomId: Swift.Int, name: Swift.String, expiredAt: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercomCode>)
+  public func deleteIntercoms(with ids: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func deleteIntercomCodes(with ids: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func deleteCalls(with ids: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func changeIntercomSettings(with id: Swift.Int, isEnabled: Swift.Bool?, timetable: VMSMobileSDK.VMSTimetable?, isLandlineEnabled: Swift.Bool?, isAnalogEnabled: Swift.Bool?, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercom>)
+  public func createFaceRecognitionAnalyticFile(intercomId: Swift.Int, request: VMSMobileSDK.VMSIntercomFaceRecognitionResourceRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSAnalyticFile>)
+  public func updateIntercomAnalyticFileName(intercomId: Swift.Int, fileId: Swift.Int, name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSAnalyticFile>)
+  public func deleteIntercomAnalyticFile(intercomId: Swift.Int, fileId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func getIntercomAnalyticFiles(page: Swift.Int, intercomId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSAnalyticFile>>)
+}
+final public class VMSUser : Swift.Codable {
+  final public let id: Swift.Int
+  final public var phone: Swift.String?
+  final public var email: Swift.String?
+  final public var name: Swift.String?
+  final public var login: Swift.String?
+  final public var token: Swift.String?
+  final public var accessTokenId: Swift.String?
+  final public var permissions: [VMSMobileSDK.VMSPermission]?
+  final public var canUpdatePassword: Swift.Bool?
+  public init(id: Swift.Int, phone: Swift.String? = nil, email: Swift.String? = nil, name: Swift.String? = nil, login: Swift.String? = nil, token: Swift.String? = nil, accessTokenId: Swift.String? = nil, permissions: [VMSMobileSDK.VMSPermission]? = nil, canUpdatePassword: Swift.Bool? = nil)
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension VMSMobileSDK.VMSUser {
+  final public func hasPermission(_ permission: VMSMobileSDK.VMSPermission.PermissionType) -> Swift.Bool
+}
+public typealias VMSResultDataBlock = (VMSMobileSDK.VMSApiResult<Any>) -> Swift.Void
+public typealias VMSResultBlock<T> = (VMSMobileSDK.VMSApiResult<T>) -> Swift.Void where T : Swift.Decodable
+@frozen public enum VMSApiResult<T> {
+  case success(T)
+  case failure(VMSMobileSDK.VMSApiError)
+}
+public struct VMSNoReply : Swift.Decodable {
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSServerError : Swift.Decodable {
+  public let message: Swift.String
+  public let errors: [Swift.String : [Swift.String]]
+  public func allMessages() -> Swift.String
+  public init(from decoder: any Swift.Decoder) throws
+}
+public enum PusherChannelType {
+  case `private`
+  case presence
+  case normal
+  public init(name: Swift.String)
+  public static func type(forName name: Swift.String) -> VMSMobileSDK.PusherChannelType
+  public static func isPresenceChannel(name: Swift.String) -> Swift.Bool
+  public static func == (a: VMSMobileSDK.PusherChannelType, b: VMSMobileSDK.PusherChannelType) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+final public class VMSCameraGroup : Swift.Decodable {
+  final public let id: Swift.Int
+  final public var items: [VMSMobileSDK.VMSCamera]!
+  final public var name: Swift.String?
+  final public var itemsCount: Swift.Int?
+  final public var previews: [VMSMobileSDK.VMSCameraPreview]?
+  public init(id: Swift.Int, cameras: [VMSMobileSDK.VMSCamera])
+  public init(id: Swift.Int, name: Swift.String?)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol VMSAnalyticType {
+  func getId() -> Swift.Int
+  func typeName() -> Swift.String
+  func titleName() -> Swift.String
+}
+final public class VMSAnalyticEvent : Swift.Decodable {
+  final public var id: Swift.Int!
+  final public var name: Swift.String?
+  final public var color: Swift.String?
+  final public var type: Swift.String?
+  final public var typePretty: Swift.String?
+  public init(id: Swift.Int, name: Swift.String? = nil, color: Swift.String? = nil, type: Swift.String? = nil, typePretty: Swift.String? = nil)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+extension VMSMobileSDK.VMSAnalyticEvent : VMSMobileSDK.VMSAnalyticType {
+  final public func getId() -> Swift.Int
+  final public func typeName() -> Swift.String
+  final public func titleName() -> Swift.String
+}
+public protocol PlayerApi {
+  func isNoWiFiConnected() -> Swift.Bool
+  func getStream(by cameraId: Swift.Int, quality: VMSMobileSDK.VMSStream.QualityType, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUrlStringResponse>)
+  func cancelStreamRequest(by cameraId: Swift.Int)
+  func getArchive(by cameraId: Swift.Int, start: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUrlStringResponse>)
+  func cancelArchiveRequest(by cameraId: Swift.Int)
+  func getArchiveLink(cameraId: Swift.Int, from: Foundation.Date, to: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func moveCamera(with id: Swift.Int, direction: VMSMobileSDK.VMSPTZDirection, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func moveCameraHome(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.PlayerApi {
+  public func isNoWiFiConnected() -> Swift.Bool
+  public func getStream(by cameraId: Swift.Int, quality: VMSMobileSDK.VMSStream.QualityType, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUrlStringResponse>)
+  public func cancelStreamRequest(by cameraId: Swift.Int)
+  public func getArchive(by cameraId: Swift.Int, start: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUrlStringResponse>)
+  public func cancelArchiveRequest(by cameraId: Swift.Int)
+  public func getArchiveLink(cameraId: Swift.Int, from: Foundation.Date, to: Foundation.Date, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func moveCamera(with id: Swift.Int, direction: VMSMobileSDK.VMSPTZDirection, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func moveCameraHome(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+public typealias VMSTranslationDict = [Swift.String : Swift.String]
+final public class VMSTranslationObject : Swift.Codable {
+  final public var language: Swift.String?
+  final public var revision: Swift.Int?
+  final public var json: VMSMobileSDK.VMSTranslationDict?
+  public init(lang: Swift.String)
+  @objc deinit
+  final public func encode(to encoder: any Swift.Encoder) throws
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol WidgetApi {
+  func getWidgetCameras(ids: [Swift.String], completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSWidgetCamera]>)
+  func getWidgetCameraPreviewURL(cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraPreviewResponse>)
+  func getWidgetIntercoms(ids: [Swift.String], completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSWidgetIntercom]>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.WidgetApi {
+  public func getWidgetCameras(ids: [Swift.String], completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSWidgetCamera]>)
+  public func getWidgetCameraPreviewURL(cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraPreviewResponse>)
+  public func getWidgetIntercoms(ids: [Swift.String], completion: @escaping VMSMobileSDK.VMSResultBlock<[VMSMobileSDK.VMSWidgetIntercom]>)
+}
+public protocol HeadersBuilder {
+  func setAccessToken(_ token: Swift.String?)
+  func setSocketId(_ socketId: Swift.String?)
+  func setLanguage(_ language: Swift.String)
+  func getLanguage() -> Swift.String
+  func getHeaders() -> [Swift.String : Swift.String]
+}
+@_hasMissingDesignatedInitializers public class HeadersBuilderImpl : VMSMobileSDK.HeadersBuilder {
+  public func setAccessToken(_ token: Swift.String?)
+  public func setSocketId(_ socketId: Swift.String?)
+  public func setLanguage(_ language: Swift.String)
+  public func getLanguage() -> Swift.String
+  public func getHeaders() -> [Swift.String : Swift.String]
+  @objc deinit
+}
+public protocol AuthorizationExternalApi {
+  func loginWithExternal(with login: VMSMobileSDK.VMSLoginExternalRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUserResponse>)
+  func getUrlForExternalLogin(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUrlStringResponse>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.AuthorizationExternalApi {
+  public func loginWithExternal(with login: VMSMobileSDK.VMSLoginExternalRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUserResponse>)
+  public func getUrlForExternalLogin(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUrlStringResponse>)
+}
+public struct PaginatedResponse<T> : Swift.Decodable where T : Swift.Decodable {
+  public let data: [T]
+  public let links: VMSMobileSDK.Links
+  public let meta: VMSMobileSDK.Meta
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Links : Swift.Decodable {
+  public let first: Swift.String?
+  public let last: Swift.String?
+  public let next: Swift.String?
+  public let prev: Swift.String?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct Meta : Swift.Decodable {
+  public let currentPage: Swift.Int
+  public let lastPage: Swift.Int?
+  public let path: Swift.String?
+  public let perPage: Swift.Int
+  public let total: Swift.Int
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol CallsApi {
+  func callStatus(with callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercomCall>)
+  func callAnswered(callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSVoipCall>)
+  func callCanceled(callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func callEnded(callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.CallsApi {
+  public func callStatus(with callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSIntercomCall>)
+  public func callAnswered(callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSVoipCall>)
+  public func callCanceled(callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func callEnded(callId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+public protocol UserApi {
+  func getUser(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUser>)
+  func changePassword(info: VMSMobileSDK.VMSChangePasswordRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func logout(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func changeLanguage(language: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.UserApi {
+  public func getUser(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSUser>)
+  public func logout(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func changePassword(info: VMSMobileSDK.VMSChangePasswordRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func changeLanguage(language: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+public typealias PusherUserInfoObject = [Swift.String : Swift.AnyObject]
+@_hasMissingDesignatedInitializers @objcMembers @objc open class PusherPresenceChannel : VMSMobileSDK.PusherChannel {
+  @objc open var members: [VMSMobileSDK.PusherPresenceChannelMember]
+  @objc open var onMemberAdded: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)?
+  @objc open var onMemberRemoved: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)?
+  @objc open var myId: Swift.String?
+  @objc open func findMember(userId: Swift.String) -> VMSMobileSDK.PusherPresenceChannelMember?
+  @objc open func me() -> VMSMobileSDK.PusherPresenceChannelMember?
+  @objc deinit
+}
+@objcMembers @objc public class PusherClientOptions : ObjectiveC.NSObject {
+  public var authMethod: VMSMobileSDK.AuthMethod
+  @objc final public let attemptToReturnJSONObject: Swift.Bool
+  @objc final public let autoReconnect: Swift.Bool
+  @objc final public let host: Swift.String
+  @objc final public let port: Swift.Int
+  @objc final public let path: Swift.String?
+  @objc final public let useTLS: Swift.Bool
+  final public let activityTimeout: Foundation.TimeInterval?
+  @nonobjc public init(authMethod: VMSMobileSDK.AuthMethod = .noMethod, attemptToReturnJSONObject: Swift.Bool = true, autoReconnect: Swift.Bool = true, host: VMSMobileSDK.PusherHost = .defaultHost, port: Swift.Int? = nil, path: Swift.String? = nil, useTLS: Swift.Bool = true, activityTimeout: Foundation.TimeInterval? = nil)
+  @objc deinit
+}
+final public class VMSStatic : Swift.Decodable {
+  final public var cameraIssues: [VMSMobileSDK.VMSCameraIssue]?
+  final public var videoRates: [Swift.Double]?
+  final public var markTypes: [VMSMobileSDK.VMSEventType]?
+  final public var systemEvents: [VMSMobileSDK.VMSEventType]?
+  final public var analyticEvents: [VMSMobileSDK.VMSEventType]?
+  final public var analyticTypes: [VMSMobileSDK.VMSEventType]?
+  public init(cameraIssues: [VMSMobileSDK.VMSCameraIssue]? = nil, videoRates: [Swift.Double]? = nil, markTypes: [VMSMobileSDK.VMSEventType]? = nil, systemEvents: [VMSMobileSDK.VMSEventType]? = nil, analyticEvents: [VMSMobileSDK.VMSEventType]? = nil, analyticTypes: [VMSMobileSDK.VMSEventType]? = nil)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSBasicStatic : Swift.Decodable {
+  final public var isCaptchaAvailable: Swift.Bool?
+  final public var isExternalAuthEnabled: Swift.Bool?
+  final public var availableLocales: [Swift.String]
+  final public var version: Swift.String?
+  public init(isCaptchaAvailable: Swift.Bool? = nil, isExternalAuthEnabled: Swift.Bool? = nil, version: Swift.String? = nil, availableLocales: [Swift.String])
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSCameraIssue : Swift.Decodable {
+  final public let id: Swift.Int
+  final public var title: Swift.String?
+  public init(id: Swift.Int, title: Swift.String? = nil)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSEvent : Swift.Decodable {
+  final public var id: Swift.Int?
+  final public var title: Swift.String?
+  final public var from: Foundation.Date?
+  final public var to: Foundation.Date?
+  final public var createdAt: Foundation.Date?
+  final public var camera: VMSMobileSDK.VMSCamera?
+  final public var type: Swift.String?
+  final public var typePretty: Swift.String?
+  final public var canDelete: Swift.Bool?
+  final public var analyticCase: VMSMobileSDK.VMSAnalyticCase?
+  final public var analyticFile: VMSMobileSDK.VMSAnalyticFile?
+  final public var analyticGroup: VMSMobileSDK.VMSAnalyticGroup?
+  final public var event: VMSMobileSDK.VMSAnalyticEvent?
+  final public var crop: Swift.String?
+  final public var similarity: Swift.Double?
+  final public var rect: Swift.Int?
+  final public var licensePlate: Swift.String?
+  final public var containerCode: Swift.String?
+  final public var containerDimsCode: Swift.String?
+  public init(id: Swift.Int, from: Foundation.Date, title: Swift.String?)
+  public init(from decoder: any Swift.Decoder) throws
+  @objc deinit
+}
+extension VMSMobileSDK.VMSEvent : VMSMobileSDK.VMSAnalyticType {
+  final public func getId() -> Swift.Int
+  final public func typeName() -> Swift.String
+  final public func titleName() -> Swift.String
+}
+@objcMembers @objc public class PusherPresenceChannelMember : ObjectiveC.NSObject {
+  @objc final public let userId: Swift.String
+  @objc final public let userInfo: Any?
+  @objc public init(userId: Swift.String, userInfo: Any? = nil)
+  @objc deinit
+}
+public enum AuthMethod {
+  case endpoint(authEndpoint: Swift.String)
+  case authRequestBuilder(authRequestBuilder: any VMSMobileSDK.AuthRequestBuilderProtocol)
+  case authorizer(authorizer: any VMSMobileSDK.Authorizer)
+  case inline(secret: Swift.String)
+  case noMethod
+}
+public class VMSAnalyticGroup : Swift.Decodable {
+  public var id: Swift.Int!
+  public var type: Swift.String?
+  public var typePretty: Swift.String?
+  public var name: Swift.String?
+  public init(id: Swift.Int, type: Swift.String? = nil, typePretty: Swift.String? = nil, name: Swift.String? = nil)
+  @objc deinit
+  required public init(from decoder: any Swift.Decoder) throws
+}
+@objcMembers @objc open class PusherConnection : ObjectiveC.NSObject {
+  @objc final public let url: Swift.String
+  @objc final public let key: Swift.String
+  @objc open var options: VMSMobileSDK.PusherClientOptions
+  @objc open var globalChannel: VMSMobileSDK.GlobalChannel!
+  @objc open var socketId: Swift.String?
+  @objc open var connectionState: VMSMobileSDK.ConnectionState
+  @objc open var channels: VMSMobileSDK.PusherChannels
+  open var socket: VMSMobileSDK.NWWebSocket!
+  @objc open var URLSession: Foundation.URLSession
+  @objc open var userDataFetcher: (() -> VMSMobileSDK.PusherPresenceChannelMember)?
+  open var reconnectAttemptsMax: Swift.Int?
+  @objc open var reconnectAttempts: Swift.Int
+  open var maxReconnectGapInSeconds: Swift.Double?
+  @objc weak open var delegate: (any VMSMobileSDK.PusherDelegate)? {
+    @objc get
+    @objc set
+  }
+  @objc open var activityTimeoutInterval: Foundation.TimeInterval
+  public init(key: Swift.String, socket: VMSMobileSDK.NWWebSocket, url: Swift.String, options: VMSMobileSDK.PusherClientOptions, URLSession: Foundation.URLSession = Foundation.URLSession.shared)
+  @objc deinit
+  @objc open func sendEvent(event: Swift.String, data: Any, channel: VMSMobileSDK.PusherChannel? = nil)
+  @objc open func disconnect()
+  @objc open func connect()
+  @objc open func handleError(error: VMSMobileSDK.PusherError)
+  @objc open func handleEvent(event: VMSMobileSDK.PusherEvent)
+}
+@objc extension VMSMobileSDK.PusherClientOptions {
+  @objc convenience dynamic public init(ocAuthMethod authMethod: VMSMobileSDK.OCAuthMethod, autoReconnect: Swift.Bool = true, ocHost host: VMSMobileSDK.OCPusherHost = PusherHost.defaultHost.toObjc(), port: Foundation.NSNumber? = nil, useTLS: Swift.Bool = true, activityTimeout: Foundation.NSNumber? = nil)
+  @objc convenience dynamic public init(ocAuthMethod authMethod: VMSMobileSDK.OCAuthMethod, attemptToReturnJSONObject: Swift.Bool = true, autoReconnect: Swift.Bool = true, ocHost host: VMSMobileSDK.OCPusherHost = PusherHost.defaultHost.toObjc(), port: Foundation.NSNumber? = nil, useTLS: Swift.Bool = true, activityTimeout: Foundation.NSNumber? = nil)
+  @objc convenience dynamic public init(authMethod: VMSMobileSDK.OCAuthMethod)
+  @objc dynamic public func setAuthMethod(authMethod: VMSMobileSDK.OCAuthMethod)
+}
+public protocol VMSPlayerApi : VMSMobileSDK.CameraApi, VMSMobileSDK.CameraEventsApi, VMSMobileSDK.PlayerApi {
+}
+final public class VMSPlayerViewModel {
+  final public var camera: VMSMobileSDK.VMSCamera
+  final public var groupCameras: [VMSMobileSDK.VMSCamera]
+  final public var currentQuality: VMSMobileSDK.VMSStream.QualityType
+  final public var currentStream: VMSMobileSDK.VMSStream? {
+    get
+  }
+  final public var currentStreamCodecType: VMSMobileSDK.VMSStream.VideoCodec {
+    get
+  }
+  final public var nullStreams: VMSMobileSDK.VMSStream? {
+    get
+  }
+  final public var hasSound: Swift.Bool {
+    get
+  }
+  final public var hasPtz: Swift.Bool {
+    get
+  }
+  final public var cameraEvents: [VMSMobileSDK.VMSEvent]
+  final public var user: VMSMobileSDK.VMSUser!
+  final public var playerApi: any VMSMobileSDK.VMSPlayerApi
+  final public var translations: VMSMobileSDK.VMSPlayerTranslations
+  final public var currentEventOption: VMSMobileSDK.VMSVideoEventOptions {
+    get
+    set
+  }
+  final public var playerType: VMSMobileSDK.VMSPlayerOptions.VMSPlayerType
+  final public var isSoundOn: Swift.Bool
+  final public var askForNet: Swift.Bool
+  final public var options: VMSMobileSDK.VMSPlayerOptions
+  public enum PlayerErrorState {
+    case normal
+    case liveRestricted
+    case archiveRestricted
+    case streamError
+    case archiveError
+    case archiveOutOfRange
+    case empty
+    case inactive
+    case initial
+    case unknown
+    case blocked
+    public static func == (a: VMSMobileSDK.VMSPlayerViewModel.PlayerErrorState, b: VMSMobileSDK.VMSPlayerViewModel.PlayerErrorState) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  final public var playerErrorState: VMSMobileSDK.VMSPlayerViewModel.PlayerErrorState {
+    get
+    set
+  }
+  public init(camera: VMSMobileSDK.VMSCamera, groupCameras: [VMSMobileSDK.VMSCamera]?, user: VMSMobileSDK.VMSUser, translations: VMSMobileSDK.VMSPlayerTranslations, playerApi: any VMSMobileSDK.VMSPlayerApi, options: VMSMobileSDK.VMSPlayerOptions, currentEventOption: VMSMobileSDK.VMSVideoEventOptions = .all)
+  final public func setPlayerType(_ type: VMSMobileSDK.VMSPlayerOptions.VMSPlayerType)
+  final public func getPlayerType(isLive: Swift.Bool) -> VMSMobileSDK.VMSPlayerOptions.VMSPlayerType
+  final public func checkQuality()
+  final public func resignApi()
+  final public func setDefaultQiality(quality: VMSMobileSDK.VMSStream.QualityType)
+  final public func needShowAskForNetDialogue() -> Swift.Bool
+  final public func getCameraStream()
+  final public func getCameraArchive(_ start: Foundation.Date, success: ((Swift.String, Foundation.Date) -> Swift.Void)?)
+  final public func getCameraInfo(success: ((VMSMobileSDK.VMSCamera) -> Swift.Void)?, failure: ((Swift.String) -> Swift.Void)?)
+  final public func setMarksFilter(by types: [VMSMobileSDK.VMSEventType])
+  final public func getCameraEvents(from: Foundation.Date, to: Foundation.Date, success: (([VMSMobileSDK.VMSEvent]) -> Swift.Void)?)
+  final public func createMark(name: Swift.String, from: Foundation.Date)
+  final public func editMark(markId: Swift.Int, name: Swift.String, from: Foundation.Date)
+  final public func rewindMark(date: Foundation.Date, direction: VMSMobileSDK.VMSRewindDirection, transform: CoreFoundation.CGFloat, speed: Swift.Double)
+  final public func hasPermission(_ permission: VMSMobileSDK.VMSPermission.PermissionType) -> Swift.Bool
+  final public func hasEventsPermissions() -> Swift.Bool
+  final public func hasAnalyticPermission() -> Swift.Bool
+  final public func canSwipeCameras() -> Swift.Bool
+  final public func getCameraIndexInGroup() -> Swift.Int?
+  final public func setNewPlayerState(cameraStatus: VMSMobileSDK.VMSCameraStatusType? = nil, customError: VMSMobileSDK.VMSPlayerViewModel.PlayerErrorState? = nil)
+  final public func getPlayerStateError() -> (Swift.String?, Swift.String?)
+  final public func getSnackPlayerStateError() -> Swift.String
+  final public func translate(_ key: VMSMobileSDK.VMSPlayerTranslations.DictKeys) -> Swift.String
+  final public func getTimeComponentTranslation(component: Foundation.Calendar.Component) -> Swift.String
+  @objc deinit
+}
+public struct VMSOpenPlayerOptions {
+  public enum VMSOpenPlayerType {
+    case live
+    case archive
+    case none
+    public static func == (a: VMSMobileSDK.VMSOpenPlayerOptions.VMSOpenPlayerType, b: VMSMobileSDK.VMSOpenPlayerOptions.VMSOpenPlayerType) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public init(event: VMSMobileSDK.VMSEvent?, archiveDate: Foundation.Date?, showEventEdit: Swift.Bool, popNavigationAfterEventEdit: Swift.Bool, pushEventsListAfterEventEdit: Swift.Bool, openPlayerType: VMSMobileSDK.VMSOpenPlayerOptions.VMSOpenPlayerType = .none, markOptions: VMSMobileSDK.VMSOpenPlayerMarkOptions? = nil, isLiveRestricted: Swift.Bool = false)
+}
+public struct VMSOpenPlayerMarkOptions {
+  public init(chosenMarksFilter: [VMSMobileSDK.VMSEventType], disableOption: Swift.Bool = false)
+}
+public enum PusherHost {
+  case host(Swift.String)
+  case cluster(Swift.String)
+  public static var defaultHost: VMSMobileSDK.PusherHost {
+    get
+  }
+  public var stringValue: Swift.String {
+    get
+  }
+}
+@objc @_hasMissingDesignatedInitializers @objcMembers open class PusherEvent : ObjectiveC.NSObject, Foundation.NSCopying {
+  @objc final public let eventName: Swift.String
+  @objc final public let channelName: Swift.String?
+  @objc final public let data: Swift.String?
+  @objc final public let userId: Swift.String?
+  @objc public func property(withKey key: Swift.String) -> Any?
+  @objc public func copy(with zone: ObjectiveC.NSZone? = nil) -> Any
+  @objc deinit
+}
+final public class VMSStream : Swift.Decodable {
+  public enum QualityType : Swift.String, Swift.Codable {
+    case low
+    case high
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum StatusType : Swift.String, Swift.Codable {
+    case active
+    case inactive
+    case NULL
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum VideoCodec : Swift.String, Swift.Codable {
+    case h264
+    case h265
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public let id: Swift.Int
+  final public var type: VMSMobileSDK.VMSStream.QualityType!
+  final public var status: VMSMobileSDK.VMSStream.StatusType!
+  final public var hasSound: Swift.Bool!
+  final public var videoCodec: VMSMobileSDK.VMSStream.VideoCodec!
+  public init(id: Swift.Int, type: VMSMobileSDK.VMSStream.QualityType, hasSound: Swift.Bool, status: VMSMobileSDK.VMSStream.StatusType, videoCodec: VMSMobileSDK.VMSStream.VideoCodec)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+public protocol EventsListApi {
+  func getCamerasWithAnalytics(page: Swift.Int, search: Swift.String?, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCamera>>)
+  func getEventsSystem(page: Swift.Int, request: VMSMobileSDK.VMSEventsRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  func getEventsMarks(page: Swift.Int, request: VMSMobileSDK.VMSEventsRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  func getEventsAnalytic(page: Swift.Int, request: VMSMobileSDK.VMSEventsAnalyticRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  func getEventsAnalyticCases(page: Swift.Int, analyticCasesTypes: [Swift.String], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSAnalyticCase>>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.EventsListApi {
+  public func getCamerasWithAnalytics(page: Swift.Int, search: Swift.String?, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCamera>>)
+  public func getEventsSystem(page: Swift.Int, request: VMSMobileSDK.VMSEventsRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  public func getEventsMarks(page: Swift.Int, request: VMSMobileSDK.VMSEventsRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  public func getEventsAnalytic(page: Swift.Int, request: VMSMobileSDK.VMSEventsAnalyticRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSEvent>>)
+  public func getEventsAnalyticCases(page: Swift.Int, analyticCasesTypes: [Swift.String], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSAnalyticCase>>)
+}
+public struct QueuedClientEvent {
+  public let name: Swift.String
+  public let data: Any
+}
+@objc public protocol AuthRequestBuilderProtocol {
+  @objc optional func requestFor(socketID: Swift.String, channelName: Swift.String) -> Foundation.URLRequest?
+}
+public protocol WebSocketConnection {
+  func connect()
+  func send(string: Swift.String)
+  func send(data: Foundation.Data)
+  func listen()
+  func ping(interval: Foundation.TimeInterval, string: Swift.String)
+  func ping(string: Swift.String)
+  func disconnect(closeCode: Network.NWProtocolWebSocket.CloseCode)
+  var delegate: (any VMSMobileSDK.WebSocketConnectionDelegate)? { get set }
+}
+public protocol WebSocketConnectionDelegate : AnyObject {
+  func webSocketDidConnect(connection: any VMSMobileSDK.WebSocketConnection)
+  func webSocketDidDisconnect(connection: any VMSMobileSDK.WebSocketConnection, closeCode: Network.NWProtocolWebSocket.CloseCode, reason: Foundation.Data?)
+  func webSocketViabilityDidChange(connection: any VMSMobileSDK.WebSocketConnection, isViable: Swift.Bool)
+  func webSocketDidAttemptBetterPathMigration(result: Swift.Result<any VMSMobileSDK.WebSocketConnection, Network.NWError>)
+  func webSocketDidReceiveError(connection: any VMSMobileSDK.WebSocketConnection, error: Network.NWError)
+  func webSocketDidReceivePong(connection: any VMSMobileSDK.WebSocketConnection)
+  func webSocketDidReceiveMessage(connection: any VMSMobileSDK.WebSocketConnection, string: Swift.String)
+  func webSocketDidReceiveMessage(connection: any VMSMobileSDK.WebSocketConnection, data: Foundation.Data)
+}
+public enum VMSIntercomPushTypes : Swift.String, Swift.Decodable {
+  case rename
+  case update
+  case delete
+  case store
+  case keyConfirmed
+  case keyError
+  case addError
+  case codeStore
+  case codeDelete
+  case eventStore
+  case callStore
+  case callDelete
+  case cancelCall
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum VMSIntercomSocketData {
+  case intercomCodeStored(VMSMobileSDK.VMSIntercomCode?)
+  case intercomCallStored(VMSMobileSDK.VMSIntercomCall?)
+  case intercomStored(VMSMobileSDK.VMSIntercom?)
+  case intercomEventStored(VMSMobileSDK.VMSEvent?)
+  case intercomKeyConfirmed(VMSMobileSDK.VMSIntercom?)
+  case intercomRenamed(VMSMobileSDK.VMSIntercom?)
+  case intercomUpdated(VMSMobileSDK.VMSIntercom?)
+  case intercomsDeleted(VMSMobileSDK.VMSIntercomDeleteSocket?)
+  case intercomCodesDeleted(VMSMobileSDK.VMSIntercomDeleteSocket?)
+  case intercomCallsDeleted(VMSMobileSDK.VMSIntercomDeleteSocket?)
+  case intercomKeyError(VMSMobileSDK.VMSIntercomErrorSocket?)
+  case intercomAddError(VMSMobileSDK.VMSIntercomErrorSocket?)
+  case intercomCallCanceled(VMSMobileSDK.VMSCanceledCall?)
+}
+public struct VMSIntercomDeleteSocket : Swift.Decodable {
+  public let deletedIds: [Swift.Int]?
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct VMSIntercomErrorSocket : Swift.Decodable {
+  public let error: Swift.String?
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSCanceledCall : Swift.Decodable {
+  final public let id: Swift.Int
+  final public var title: Swift.String?
+  final public var address: Swift.String?
+  final public var callId: Swift.Int!
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+public struct EventHandler {
+}
+public protocol URLBuilder {
+  func getBaseUrl() -> Swift.String
+  func build(path: Swift.String) -> Swift.String
+  func build(path: Swift.String, version: Swift.Int?) -> Swift.String
+  func build(url: Swift.String, path: Swift.String) -> Swift.String
+}
+@_hasMissingDesignatedInitializers public class URLBuilderImpl : VMSMobileSDK.URLBuilder {
+  open func build(path: Swift.String) -> Swift.String
+  open func build(path: Swift.String, version: Swift.Int? = nil) -> Swift.String
+  open func build(url: Swift.String, path: Swift.String) -> Swift.String
+  open func getBaseUrl() -> Swift.String
+  @objc deinit
+}
+public protocol VMSSocketManager {
+  func isConnected() -> Swift.Bool
+  func connect()
+  func disconnect()
+  func getSocketId() -> Swift.String?
+}
+public protocol VMSSocketManagerDelegate : AnyObject {
+  func changedConnectionState(from old: VMSMobileSDK.ConnectionState, to new: VMSMobileSDK.ConnectionState)
+  func receivedError(error: VMSMobileSDK.PusherError)
+  func receivedAppSocket(socket: VMSMobileSDK.VMSAppSocketData)
+  func receivedIntercomSocket(socket: VMSMobileSDK.VMSIntercomSocketData)
+  func receivedInfo(message: Swift.String)
+}
+extension VMSMobileSDK.VMSSocketManagerDelegate {
+  public func changedConnectionState(from old: VMSMobileSDK.ConnectionState, to new: VMSMobileSDK.ConnectionState)
+  public func receivedError(error: VMSMobileSDK.PusherError)
+  public func receivedInfo(message: Swift.String)
+}
+@_inheritsConvenienceInitializers @objcMembers @objc public class OCPusherHost : ObjectiveC.NSObject {
+  @objc override dynamic public init()
+  @objc public init(host: Swift.String)
+  @objc public init(cluster: Swift.String)
+  @objc deinit
+}
+final public class VMSIntercomCall : Swift.Decodable {
+  public enum VMSCallStatus : Swift.String, Swift.Codable {
+    case missed
+    case ring
+    case ended
+    case answered
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public let id: Swift.Int
+  final public var status: VMSMobileSDK.VMSIntercomCall.VMSCallStatus?
+  final public var startedAt: Swift.String?
+  final public var createdAt: Swift.String?
+  final public var endedAt: Swift.String?
+  final public var intercom: VMSMobileSDK.VMSIntercom?
+  final public var markType: Swift.String?
+  public init(id: Swift.Int, status: VMSMobileSDK.VMSIntercomCall.VMSCallStatus? = nil, startedAt: Swift.String? = nil, createdAt: Swift.String? = nil, endedAt: Swift.String? = nil, intercom: VMSMobileSDK.VMSIntercom? = nil, markType: Swift.String?)
+  @objc deinit
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objc @objcMembers open class PusherChannel : ObjectiveC.NSObject {
+  open var eventHandlers: [Swift.String : [VMSMobileSDK.EventHandler]] {
+    get
+    set
+  }
+  @objc open var subscribed: Swift.Bool
+  @objc final public let name: Swift.String
+  @objc weak open var connection: VMSMobileSDK.PusherConnection?
+  open var unsentEvents: [VMSMobileSDK.QueuedClientEvent]
+  final public let type: VMSMobileSDK.PusherChannelType
+  @objc public var auth: VMSMobileSDK.PusherAuth?
+  @objc public init(name: Swift.String, connection: VMSMobileSDK.PusherConnection, auth: VMSMobileSDK.PusherAuth? = nil)
+  @objc @discardableResult
+  open func bind(eventName: Swift.String, eventCallback: @escaping (VMSMobileSDK.PusherEvent) -> Swift.Void) -> Swift.String
+  @objc open func unbind(eventName: Swift.String, callbackId: Swift.String)
+  @objc open func unbindAll()
+  @objc open func unbindAll(forEventName eventName: Swift.String)
+  @objc open func handleEvent(event: VMSMobileSDK.PusherEvent)
+  @objc open func trigger(eventName: Swift.String, data: Any)
+  @objc deinit
+}
+final public class VMSWidgetIntercom : Swift.Decodable, Swift.Hashable {
+  final public var id: Swift.Int!
+  final public var title: Swift.String?
+  final public var address: Swift.String?
+  final public var camera: VMSMobileSDK.VMSWidgetIntercomCamera?
+  final public var isOpenDoorApp: Swift.Bool!
+  final public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: VMSMobileSDK.VMSWidgetIntercom, rhs: VMSMobileSDK.VMSWidgetIntercom) -> Swift.Bool
+  public init(id: Swift.Int, title: Swift.String? = nil, address: Swift.String? = nil, camera: VMSMobileSDK.VMSWidgetIntercomCamera? = nil, isOpenDoorApp: Swift.Bool)
+  @objc deinit
+  final public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+final public class VMSWidgetIntercomCamera : Swift.Decodable, Swift.Hashable {
+  public enum StatusType : Swift.String, Swift.Decodable {
+    case active
+    case inactive
+    case partial
+    case empty
+    case initial
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  public enum UserStatus : Swift.String, Swift.Decodable {
+    case active
+    case blocked
+    public init?(rawValue: Swift.String)
+    public typealias RawValue = Swift.String
+    public var rawValue: Swift.String {
+      get
+    }
+  }
+  final public var id: Swift.Int!
+  final public var status: VMSMobileSDK.VMSWidgetIntercomCamera.StatusType?
+  final public var userStatus: VMSMobileSDK.VMSWidgetIntercomCamera.UserStatus?
+  final public func hash(into hasher: inout Swift.Hasher)
+  public static func == (lhs: VMSMobileSDK.VMSWidgetIntercomCamera, rhs: VMSMobileSDK.VMSWidgetIntercomCamera) -> Swift.Bool
+  public init(id: Swift.Int, status: VMSMobileSDK.VMSWidgetIntercomCamera.StatusType? = nil, userStatus: VMSMobileSDK.VMSWidgetIntercomCamera.UserStatus? = nil)
+  @objc deinit
+  final public var hashValue: Swift.Int {
+    get
+  }
+  public init(from decoder: any Swift.Decoder) throws
+}
+@objc extension VMSMobileSDK.Pusher {
+  @objc dynamic public func subscribe(channelName: Swift.String) -> VMSMobileSDK.PusherChannel
+  @objc dynamic public func subscribe(channelName: Swift.String, onMemberAdded: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil, onMemberRemoved: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil) -> VMSMobileSDK.PusherChannel
+  @objc dynamic public func subscribeToPresenceChannel(channelName: Swift.String) -> VMSMobileSDK.PusherPresenceChannel
+  @objc dynamic public func subscribeToPresenceChannel(channelName: Swift.String, onMemberAdded: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil, onMemberRemoved: ((VMSMobileSDK.PusherPresenceChannelMember) -> Swift.Void)? = nil) -> VMSMobileSDK.PusherPresenceChannel
+  @objc convenience dynamic public init(withAppKey key: Swift.String, options: VMSMobileSDK.PusherClientOptions)
+  @objc convenience dynamic public init(withKey key: Swift.String)
+}
+final public class VMSApiError {
+  final public var statusCode: Swift.Int?
+  final public var type: VMSMobileSDK.VMSApiError.ErrorType
+  final public var message: Swift.String?
+  public init(statusCode: Swift.Int?, type: VMSMobileSDK.VMSApiError.ErrorType, message: Swift.String? = nil)
+  public enum ErrorType : Swift.Equatable {
+    case unathorised
+    case forbidden
+    case notFound
+    case forceUpdate
+    case sessionExpired(VMSMobileSDK.VMSSessionResponse?)
+    case incorrectData(VMSMobileSDK.VMSServerError?)
+    case requestLimit
+    case technical
+    case serverError
+    case unknown
+    case noConnection
+    case decode
+    case requestCanceled
+    public var description: Swift.String {
+      get
+    }
+    public static func == (lhs: VMSMobileSDK.VMSApiError.ErrorType, rhs: VMSMobileSDK.VMSApiError.ErrorType) -> Swift.Bool
+  }
+  @objc deinit
+}
+public protocol FavoritesApi {
+  func createFavorite(with cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func deleteFavorite(with cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func getFavoritesList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCamera>>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.FavoritesApi {
+  public func createFavorite(with cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func deleteFavorite(with cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func getFavoritesList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCamera>>)
+}
+extension UIKit.UIDevice {
+  @_Concurrency.MainActor(unsafe) public static let modelName: Swift.String
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.VMSPlayerApi {
+}
+public protocol SocketApi {
+  func getSocketUrl(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSSocketResponse>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.SocketApi {
+  public func getSocketUrl(completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSSocketResponse>)
+}
+@objc @_inheritsConvenienceInitializers @_Concurrency.MainActor(unsafe) public class VMSPlayerController : UIKit.UIViewController {
+  @_Concurrency.MainActor(unsafe) public static func initialization(viewModel: VMSMobileSDK.VMSPlayerViewModel, delegate: (any VMSMobileSDK.VMSPlayerDelegate)?, openOptions: VMSMobileSDK.VMSOpenPlayerOptions? = nil) -> VMSMobileSDK.VMSPlayerController
+  @_Concurrency.MainActor(unsafe) public func setOpenPlayerOptions(options: VMSMobileSDK.VMSOpenPlayerOptions)
+  @_Concurrency.MainActor(unsafe) public func setDefaultQuality(quality: VMSMobileSDK.VMSStream.QualityType)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidLoad()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewDidAppear(_ animated: Swift.Bool)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public var preferredStatusBarStyle: UIKit.UIStatusBarStyle {
+    @objc get
+  }
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func didReceiveMemoryWarning()
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func touchesBegan(_ touches: Swift.Set<UIKit.UITouch>, with event: UIKit.UIEvent?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillDisappear(_ animated: Swift.Bool)
+  @objc deinit
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func observeValue(forKeyPath keyPath: Swift.String?, of object: Any?, change: [Foundation.NSKeyValueChangeKey : Any]?, context: Swift.UnsafeMutableRawPointer?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func viewWillTransition(to size: CoreFoundation.CGSize, with coordinator: any UIKit.UIViewControllerTransitionCoordinator)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public func prepare(for segue: UIKit.UIStoryboardSegue, sender: Any?)
+  @_Concurrency.MainActor(unsafe) @objc override dynamic public init(nibName nibNameOrNil: Swift.String?, bundle nibBundleOrNil: Foundation.Bundle?)
+  @_Concurrency.MainActor(unsafe) @objc required dynamic public init?(coder: Foundation.NSCoder)
+}
+extension VMSMobileSDK.VMSPlayerController {
+  @_Concurrency.MainActor(unsafe) public func getMarkArchive()
+}
+extension VMSMobileSDK.VMSPlayerController : UIKit.UIScrollViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func viewForZooming(in scrollView: UIKit.UIScrollView) -> UIKit.UIView?
+}
+extension VMSMobileSDK.VMSPlayerController : UIKit.UIPickerViewDataSource, UIKit.UIPickerViewDelegate {
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func numberOfComponents(in pickerView: UIKit.UIPickerView) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func pickerView(_ pickerView: UIKit.UIPickerView, numberOfRowsInComponent component: Swift.Int) -> Swift.Int
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func pickerView(_ pickerView: UIKit.UIPickerView, widthForComponent component: Swift.Int) -> CoreFoundation.CGFloat
+  @_Concurrency.MainActor(unsafe) @objc dynamic public func pickerView(_ pickerView: UIKit.UIPickerView, attributedTitleForRow row: Swift.Int, forComponent component: Swift.Int) -> Foundation.NSAttributedString?
+}
+extension VMSMobileSDK.PusherConnection : VMSMobileSDK.WebSocketConnectionDelegate {
+  public func webSocketDidReceiveMessage(connection: any VMSMobileSDK.WebSocketConnection, string: Swift.String)
+  public func webSocketDidReceivePong(connection: any VMSMobileSDK.WebSocketConnection)
+  public func webSocketDidDisconnect(connection: any VMSMobileSDK.WebSocketConnection, closeCode: Network.NWProtocolWebSocket.CloseCode, reason: Foundation.Data?)
+  public func webSocketViabilityDidChange(connection: any VMSMobileSDK.WebSocketConnection, isViable: Swift.Bool)
+  public func webSocketDidAttemptBetterPathMigration(result: Swift.Result<any VMSMobileSDK.WebSocketConnection, Network.NWError>)
+  public func webSocketDidConnect(connection: any VMSMobileSDK.WebSocketConnection)
+  public func webSocketDidReceiveMessage(connection: any VMSMobileSDK.WebSocketConnection, data: Foundation.Data)
+  public func webSocketDidReceiveError(connection: any VMSMobileSDK.WebSocketConnection, error: Network.NWError)
+}
+public protocol BridgeApi {
+  func getBridgesList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSBridge>>)
+  func createBridge(request: VMSMobileSDK.VMSBridgeCreateRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBridge>)
+  func updateBridge(with id: Swift.Int, name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBridge>)
+  func getBridge(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBridge>)
+  func getBridgeCameras(bridgeId: Swift.Int, page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCamera>>)
+  func deleteBridgeCamera(with bridgeId: Swift.Int, cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.BridgeApi {
+  public func getBridgesList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSBridge>>)
+  public func createBridge(request: VMSMobileSDK.VMSBridgeCreateRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBridge>)
+  public func updateBridge(with id: Swift.Int, name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBridge>)
+  public func getBridge(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSBridge>)
+  public func deleteBridge(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func getBridgeCameras(bridgeId: Swift.Int, page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCamera>>)
+  public func deleteBridgeCamera(with bridgeId: Swift.Int, cameraId: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+}
+final public class VMSIntercomCode : Swift.Decodable {
+  final public let id: Swift.Int
+  final public var title: Swift.String?
+  final public var code: Swift.String?
+  final public var expiredAt: Foundation.Date?
+  final public var createdAt: Foundation.Date?
+  final public var intercom: VMSMobileSDK.VMSIntercom?
+  final public var isExpired: Swift.Bool!
+  final public var willDeletedAt: Foundation.Date?
+  public init(from decoder: any Swift.Decoder) throws
+  public init(id: Swift.Int, isExpired: Swift.Bool)
+  @objc deinit
+}
+@objc public class PusherAuth : ObjectiveC.NSObject {
+  final public let auth: Swift.String
+  final public let channelData: Swift.String?
+  final public let sharedSecret: Swift.String?
+  public init(auth: Swift.String, channelData: Swift.String? = nil, sharedSecret: Swift.String? = nil)
+  @objc deinit
+}
+public protocol GroupApi {
+  func getGroupsList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCameraGroup>>)
+  func createGroup(with name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraGroup>)
+  func renameGroup(with id: Swift.Int, newName: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraGroup>)
+  func updateGroup(info: VMSMobileSDK.VMSUpdateGroupRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraGroup>)
+  func deleteGroup(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  func syncGroups(for cameraId: Swift.Int, groupIds: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSTypeGroupResponse>)
+}
+extension VMSMobileSDK.VMS : VMSMobileSDK.GroupApi {
+  public func getGroupsList(page: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.PaginatedResponse<VMSMobileSDK.VMSCameraGroup>>)
+  public func createGroup(with name: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraGroup>)
+  public func renameGroup(with id: Swift.Int, newName: Swift.String, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraGroup>)
+  public func deleteGroup(with id: Swift.Int, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSNoReply>)
+  public func updateGroup(info: VMSMobileSDK.VMSUpdateGroupRequest, completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSCameraGroup>)
+  public func syncGroups(for cameraId: Swift.Int, groupIds: [Swift.Int], completion: @escaping VMSMobileSDK.VMSResultBlock<VMSMobileSDK.VMSTypeGroupResponse>)
+}
+extension VMSMobileSDK.VMSUserStatusType : Swift.Equatable {}
+extension VMSMobileSDK.VMSUserStatusType : Swift.Hashable {}
+extension VMSMobileSDK.VMSUserStatusType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSCameraStatusType : Swift.Equatable {}
+extension VMSMobileSDK.VMSCameraStatusType : Swift.Hashable {}
+extension VMSMobileSDK.VMSCameraStatusType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSAppSocketType : Swift.Equatable {}
+extension VMSMobileSDK.VMSAppSocketType : Swift.Hashable {}
+extension VMSMobileSDK.VMSAppSocketType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSWidgetCamera.StatusType : Swift.Equatable {}
+extension VMSMobileSDK.VMSWidgetCamera.StatusType : Swift.Hashable {}
+extension VMSMobileSDK.VMSWidgetCamera.StatusType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSWidgetCamera.UserStatus : Swift.Equatable {}
+extension VMSMobileSDK.VMSWidgetCamera.UserStatus : Swift.Hashable {}
+extension VMSMobileSDK.VMSWidgetCamera.UserStatus : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSDays.DayOfWeek : Swift.Equatable {}
+extension VMSMobileSDK.VMSDays.DayOfWeek : Swift.Hashable {}
+extension VMSMobileSDK.VMSDays.DayOfWeek : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSPermission.PermissionType : Swift.Equatable {}
+extension VMSMobileSDK.VMSPermission.PermissionType : Swift.Hashable {}
+extension VMSMobileSDK.VMSPermission.PermissionType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSIntercom.AnswerDevicesType : Swift.Equatable {}
+extension VMSMobileSDK.VMSIntercom.AnswerDevicesType : Swift.Hashable {}
+extension VMSMobileSDK.VMSIntercom.AnswerDevicesType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSIntercom.IntercomStatus : Swift.Equatable {}
+extension VMSMobileSDK.VMSIntercom.IntercomStatus : Swift.Hashable {}
+extension VMSMobileSDK.VMSIntercom.IntercomStatus : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSIntercomCamera.StatusType : Swift.Equatable {}
+extension VMSMobileSDK.VMSIntercomCamera.StatusType : Swift.Hashable {}
+extension VMSMobileSDK.VMSIntercomCamera.StatusType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSIntercomCamera.UserStatus : Swift.Equatable {}
+extension VMSMobileSDK.VMSIntercomCamera.UserStatus : Swift.Hashable {}
+extension VMSMobileSDK.VMSIntercomCamera.UserStatus : Swift.RawRepresentable {}
+extension VMSMobileSDK.VideoQuality : Swift.Equatable {}
+extension VMSMobileSDK.VideoQuality : Swift.Hashable {}
+extension VMSMobileSDK.VideoQuality : Swift.RawRepresentable {}
+extension VMSMobileSDK.MarksOptions : Swift.Equatable {}
+extension VMSMobileSDK.MarksOptions : Swift.Hashable {}
+extension VMSMobileSDK.MarksOptions : Swift.RawRepresentable {}
+extension VMSMobileSDK.OptionsTitle : Swift.Equatable {}
+extension VMSMobileSDK.OptionsTitle : Swift.Hashable {}
+extension VMSMobileSDK.OptionsTitle : Swift.RawRepresentable {}
+extension VMSMobileSDK.VideoOptions.OptionSeparationResult : Swift.Equatable {}
+extension VMSMobileSDK.VideoOptions.OptionSeparationResult : Swift.Hashable {}
+extension VMSMobileSDK.ConnectionState : Swift.Equatable {}
+extension VMSMobileSDK.ConnectionState : Swift.Hashable {}
+extension VMSMobileSDK.ConnectionState : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSGroupSyncType : Swift.Equatable {}
+extension VMSMobileSDK.VMSGroupSyncType : Swift.Hashable {}
+extension VMSMobileSDK.VMSGroupSyncType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSPlayerOptions.VMSPlayerType : Swift.Equatable {}
+extension VMSMobileSDK.VMSPlayerOptions.VMSPlayerType : Swift.Hashable {}
+extension VMSMobileSDK.VMSPlayerOptions.VMSPlayerType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSSortDirection : Swift.Equatable {}
+extension VMSMobileSDK.VMSSortDirection : Swift.Hashable {}
+extension VMSMobileSDK.VMSSortDirection : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSEventPeriod : Swift.Equatable {}
+extension VMSMobileSDK.VMSEventPeriod : Swift.Hashable {}
+extension VMSMobileSDK.VMSEventPeriod : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSRewindDirection : Swift.Equatable {}
+extension VMSMobileSDK.VMSRewindDirection : Swift.Hashable {}
+extension VMSMobileSDK.VMSRewindDirection : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSPTZDirection : Swift.Equatable {}
+extension VMSMobileSDK.VMSPTZDirection : Swift.Hashable {}
+extension VMSMobileSDK.VMSPTZDirection : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSPlayerTranslations.DictKeys : Swift.Equatable {}
+extension VMSMobileSDK.VMSPlayerTranslations.DictKeys : Swift.Hashable {}
+extension VMSMobileSDK.VMSPlayerTranslations.DictKeys : Swift.RawRepresentable {}
+extension VMSMobileSDK.PusherChannelType : Swift.Equatable {}
+extension VMSMobileSDK.PusherChannelType : Swift.Hashable {}
+extension VMSMobileSDK.VMSPlayerViewModel.PlayerErrorState : Swift.Equatable {}
+extension VMSMobileSDK.VMSPlayerViewModel.PlayerErrorState : Swift.Hashable {}
+extension VMSMobileSDK.VMSOpenPlayerOptions.VMSOpenPlayerType : Swift.Equatable {}
+extension VMSMobileSDK.VMSOpenPlayerOptions.VMSOpenPlayerType : Swift.Hashable {}
+extension VMSMobileSDK.VMSStream.QualityType : Swift.Equatable {}
+extension VMSMobileSDK.VMSStream.QualityType : Swift.Hashable {}
+extension VMSMobileSDK.VMSStream.QualityType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSStream.StatusType : Swift.Equatable {}
+extension VMSMobileSDK.VMSStream.StatusType : Swift.Hashable {}
+extension VMSMobileSDK.VMSStream.StatusType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSStream.VideoCodec : Swift.Equatable {}
+extension VMSMobileSDK.VMSStream.VideoCodec : Swift.Hashable {}
+extension VMSMobileSDK.VMSStream.VideoCodec : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSIntercomPushTypes : Swift.Equatable {}
+extension VMSMobileSDK.VMSIntercomPushTypes : Swift.Hashable {}
+extension VMSMobileSDK.VMSIntercomPushTypes : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSIntercomCall.VMSCallStatus : Swift.Equatable {}
+extension VMSMobileSDK.VMSIntercomCall.VMSCallStatus : Swift.Hashable {}
+extension VMSMobileSDK.VMSIntercomCall.VMSCallStatus : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSWidgetIntercomCamera.StatusType : Swift.Equatable {}
+extension VMSMobileSDK.VMSWidgetIntercomCamera.StatusType : Swift.Hashable {}
+extension VMSMobileSDK.VMSWidgetIntercomCamera.StatusType : Swift.RawRepresentable {}
+extension VMSMobileSDK.VMSWidgetIntercomCamera.UserStatus : Swift.Equatable {}
+extension VMSMobileSDK.VMSWidgetIntercomCamera.UserStatus : Swift.Hashable {}
+extension VMSMobileSDK.VMSWidgetIntercomCamera.UserStatus : Swift.RawRepresentable {}

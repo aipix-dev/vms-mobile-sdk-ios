@@ -1,0 +1,103 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 5.10 effective-4.1.50 (swiftlang-5.10.0.13 clang-1500.3.9.4)
+// swift-module-flags: -target arm64-apple-ios13.0 -enable-objc-interop -enable-library-evolution -swift-version 4 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name TweetNacl
+import CTweetNacl
+import Foundation
+import Swift
+@_exported import TweetNacl
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public struct NaclUtil {
+  public enum NaclUtilError : Swift.Error {
+    case badKeySize
+    case badNonceSize
+    case badPublicKeySize
+    case badSecretKeySize
+    case internalError
+    public static func == (a: TweetNacl.NaclUtil.NaclUtilError, b: TweetNacl.NaclUtil.NaclUtilError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func secureRandomData(count: Swift.Int) throws -> Foundation.Data
+  public static func hash(message: Foundation.Data) throws -> Foundation.Data
+  public static func verify(x: Foundation.Data, y: Foundation.Data) throws -> Swift.Bool
+}
+public struct NaclSecretBox {
+  public enum NaclSecretBoxError : Swift.Error {
+    case invalidParameters
+    case internalError
+    case creationFailed
+    public static func == (a: TweetNacl.NaclSecretBox.NaclSecretBoxError, b: TweetNacl.NaclSecretBox.NaclSecretBoxError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func secretBox(message: Foundation.Data, nonce: Foundation.Data, key: Foundation.Data) throws -> Foundation.Data
+  public static func open(box: Foundation.Data, nonce: Foundation.Data, key: Foundation.Data) throws -> Foundation.Data
+}
+public struct NaclScalarMult {
+  public enum NaclScalarMultError : Swift.Error {
+    case invalidParameters
+    case internalError
+    case creationFailed
+    public static func == (a: TweetNacl.NaclScalarMult.NaclScalarMultError, b: TweetNacl.NaclScalarMult.NaclScalarMultError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func scalarMult(n: Foundation.Data, p: Foundation.Data) throws -> Foundation.Data
+  public static func base(n: Foundation.Data) throws -> Foundation.Data
+}
+public struct NaclBox {
+  public enum NaclBoxError : Swift.Error {
+    case invalidParameters
+    case internalError
+    case creationFailed
+    public static func == (a: TweetNacl.NaclBox.NaclBoxError, b: TweetNacl.NaclBox.NaclBoxError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func box(message: Foundation.Data, nonce: Foundation.Data, publicKey: Foundation.Data, secretKey: Foundation.Data) throws -> Foundation.Data
+  public static func before(publicKey: Foundation.Data, secretKey: Foundation.Data) throws -> Foundation.Data
+  public static func open(message: Foundation.Data, nonce: Foundation.Data, publicKey: Foundation.Data, secretKey: Foundation.Data) throws -> Foundation.Data
+  public static func keyPair() throws -> (publicKey: Foundation.Data, secretKey: Foundation.Data)
+  public static func keyPair(fromSecretKey sk: Foundation.Data) throws -> (publicKey: Foundation.Data, secretKey: Foundation.Data)
+}
+public struct NaclSign {
+  public enum NaclSignError : Swift.Error {
+    case invalidParameters
+    case internalError
+    case creationFailed
+    public static func == (a: TweetNacl.NaclSign.NaclSignError, b: TweetNacl.NaclSign.NaclSignError) -> Swift.Bool
+    public func hash(into hasher: inout Swift.Hasher)
+    public var hashValue: Swift.Int {
+      get
+    }
+  }
+  public static func sign(message: Foundation.Data, secretKey: Foundation.Data) throws -> Foundation.Data
+  public static func signOpen(signedMessage: Foundation.Data, publicKey: Foundation.Data) throws -> Foundation.Data
+  public static func signDetached(message: Foundation.Data, secretKey: Foundation.Data) throws -> Foundation.Data
+  public static func signDetachedVerify(message: Foundation.Data, sig: Foundation.Data, publicKey: Foundation.Data) throws -> Swift.Bool
+  public struct KeyPair {
+    public static func keyPair() throws -> (publicKey: Foundation.Data, secretKey: Foundation.Data)
+    public static func keyPair(fromSecretKey secretKey: Foundation.Data) throws -> (publicKey: Foundation.Data, secretKey: Foundation.Data)
+    public static func keyPair(fromSeed seed: Foundation.Data) throws -> (publicKey: Foundation.Data, secretKey: Foundation.Data)
+  }
+}
+extension TweetNacl.NaclUtil.NaclUtilError : Swift.Equatable {}
+extension TweetNacl.NaclUtil.NaclUtilError : Swift.Hashable {}
+extension TweetNacl.NaclSecretBox.NaclSecretBoxError : Swift.Equatable {}
+extension TweetNacl.NaclSecretBox.NaclSecretBoxError : Swift.Hashable {}
+extension TweetNacl.NaclScalarMult.NaclScalarMultError : Swift.Equatable {}
+extension TweetNacl.NaclScalarMult.NaclScalarMultError : Swift.Hashable {}
+extension TweetNacl.NaclBox.NaclBoxError : Swift.Equatable {}
+extension TweetNacl.NaclBox.NaclBoxError : Swift.Hashable {}
+extension TweetNacl.NaclSign.NaclSignError : Swift.Equatable {}
+extension TweetNacl.NaclSign.NaclSignError : Swift.Hashable {}

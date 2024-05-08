@@ -1,0 +1,14 @@
+prefix=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg
+exec_prefix=${prefix}
+libdir=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg/lib
+includedir=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg/include
+
+Name: libavcodec
+Description: FFmpeg codec library
+Version: 60.22.100
+Requires: libswresample >= 4.11.100, libavutil >= 58.14.100
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavcodec -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libvpx/lib -lvpx -lm -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libvpx/lib -lvpx -lm -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libvpx/lib -lvpx -lm -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libvpx/lib -lvpx -lm -pthread -lm -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libvorbis/lib -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libogg/lib -lvorbis -lm -logg -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libvorbis/lib -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/libogg/lib -lvorbisenc -lvorbis -lm -logg -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/x264/lib -lx264 -lpthread -lm -ldl -L/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/x265/lib -lx265 -lxvidcore -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/usr/lib -lz
+Libs.private: 
+Cflags: -I${includedir}

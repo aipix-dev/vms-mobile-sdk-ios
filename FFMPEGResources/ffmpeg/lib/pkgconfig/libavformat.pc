@@ -1,0 +1,14 @@
+prefix=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg
+exec_prefix=${prefix}
+libdir=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg/lib
+includedir=/Users/user/Downloads/projects/ffmpeg-kit/prebuilt/apple-ios-arm64/ffmpeg/include
+
+Name: libavformat
+Description: FFmpeg container format library
+Version: 60.10.100
+Requires: libavcodec >= 60.22.100, libswresample >= 4.11.100, libavutil >= 58.14.100
+Requires.private: 
+Conflicts:
+Libs: -L${libdir}  -lavformat -lm -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS16.4.sdk/usr/lib -lz
+Libs.private: 
+Cflags: -I${includedir}
